@@ -1,0 +1,201 @@
+---
+title: 'Pilar 3 — Processos Padronizados: arsenal em forma'
+slug: '05-pilar-3-processos-padronizados'
+order: 5
+estimatedReadingMinutes: 18
+lastUpdated: '2026-04-26'
+pillar: 'Pilar 3'
+status: 'published'
+---
+
+Quando uma operação deixa de depender da memória dos seniores, ela escala. Quando depende, ela trava em vão.
+
+O Pilar 3 é o que faz essa transição. Processos Padronizados é onde a templetização da venda consultiva (princípio 7) toma forma operacional, onde os 12 passos cognitivos (princípio 6) viram colateral, e onde o ramp-up de um novo hire deixa de ser tribal.
+
+A regra editorial deste pilar é simples: **se o processo não está documentado em formato consumível por um novo hire, ele não existe**. Existir na cabeça de uma pessoa não conta. Ter uma planilha com 40 abas não conta. Documentação sem owner e sem revisão regular não conta.
+
+Este capítulo cobre três sub-temas que se complementam: Playbooks M1-M8 (visão tática do funil), Handbooks 2-3 páginas (visão consultiva por motion×momento), e TTFI (Time to First Impact, o critério de sucesso de Onboarding).
+
+## Playbooks M1-M8 — visão tática
+
+Playbook é a versão "uma página" do processo. Ele responde, para cada estágio do funil, três perguntas:
+
+1. **Qual é o objetivo deste estágio?** (Critério objetivo de saída)
+2. **Quais são os colaterais aplicáveis?** (Lista de templates do arsenal)
+3. **Quais são as perguntas-chave a responder?** (Framework de qualificação operando)
+
+Estrutura padrão do Playbook por estágio M1-M8:
+
+```
+M3 — SQL · Discovery Call
+
+OBJETIVO
+Confirmar dor real, decisor identificado, orçamento/urgência &lt;3m.
+
+CRITÉRIO DE SAÍDA (todos verdes)
+☐ deal_dor_principal__text preenchido (&lt;200 caracteres)
+☐ deal_decisor_economico__contact_id preenchido
+☐ deal_orcamento__band selecionado
+☐ deal_urgencia__months &lt;3
+☐ deal_metric_baseline__brl preenchido (impacto mensurável)
+
+PERGUNTAS-CHAVE (SPICED Discovery)
+1. Situation: como o processo X está hoje?
+2. Pain: o que está custando essa situação?
+3. Impact: se nada mudar nos próximos 6 meses, qual o custo acumulado?
+4. Critical Event: o que cria urgência agora vs daqui 6 meses?
+5. Decision: quem precisa estar na mesa?
+
+COLATERAIS APLICÁVEIS
+- Discovery Questions Template (por indústria)
+- Quantification Worksheet
+- Benchmark Industry Report
+
+ANTI-PADRÕES COMUNS
+✗ Avançar sem decisor identificado ("vou descobrir depois")
+✗ Aceitar dor abstrata ("queremos crescer")
+✗ Pular quantificação porque "o cliente não tem o número"
+
+OWNER
+AE responsável pelo deal
+
+RITUAL DE REVIEW
+Pipeline review semanal (terça 9h), deals em SQL com critério incompleto >7 dias entram em escalation.
+```
+
+Playbook bem feito tem entre 400 e 800 palavras. Mais que isso, ninguém consulta. Menos que isso, falta substância.
+
+A regra de uso é: **o vendedor abre o playbook antes de cada chamada relevante**. Não é leitura única — é referência cotidiana. Se o time não está abrindo, é sinal que o playbook não está vivo, e a metodologia (Pilar 2) está rachada.
+
+## Handbooks 2-3 páginas — arsenal consultivo
+
+Handbooks são a versão "consultiva" dos processos. Onde o Playbook é tático e cobre estágio do funil, o Handbook é estratégico e cobre **motion × momento da jornada do cliente**.
+
+Estrutura padrão do Handbook (formato 2-3 páginas):
+
+**Página 1 — KPI principal e Definition of Done**
+
+```
+HANDBOOK · ONBOARDING HIGH-TOUCH
+
+KPI PRINCIPAL
+Time to First Impact (TTFI) ≤ 90 dias
+
+DEFINITION OF DONE (todos sim)
+✓ Cliente bate métrica de sucesso definida na proposta
+✓ Health Score ≥ 80
+✓ Sponsor confirma valor entregue (e-mail formal)
+✓ QBR de 90 dias agendado
+
+3 MOMENTOS CRÍTICOS
+1. Kickoff (D+0 a D+7): definir métrica de sucesso, mapear stakeholders
+2. First Win (D+30): primeiro impacto demonstrável, mesmo que pequeno
+3. Validation (D+90): QBR com números reais
+```
+
+**Página 2 — Cadência e Hand-offs**
+
+```
+CADÊNCIA TÍPICA (HIGH-TOUCH)
+Semana 1-2 — Kickoff intensivo (3 reuniões, time completo)
+Semana 3-6 — Implementação técnica + treinamento
+Semana 7-9 — Adoção monitorada (weekly checks)
+Semana 10-12 — Validation + QBR
+
+HAND-OFFS
+Sales → CSM (D-7 antes do contrato): handoff doc + introdução
+CSM → Suporte: tickets técnicos saem do CSM
+CSM → AE de Expansão (D+90 se Health >80): identificar whitespace
+
+DASHBOARDS CONSULTADOS
+- TTFI por cliente (real vs prometido)
+- Adoption Score (uso de features-chave)
+- Health Score (modelo composto)
+- NPS pós-onboarding
+```
+
+**Página 3 (opcional) — FAQ e objeções comuns**
+
+```
+SE O CLIENTE...
+... atrasa kickoff por 2+ semanas → escalation para sponsor
+... muda decisor durante o onboarding → restart parcial, novo alinhamento
+... não atinge first win em D+30 → diagnóstico técnico + plano corretivo
+... bate métrica antes do prazo → acelerar Validation, abrir conversa de expansão
+
+OBJEÇÕES COMUNS
+"Não temos tempo para treinamento" → reframe via custo de não-adoção
+"O time interno resolve" → mostrar gap de produtividade humana medido
+"Vamos esperar 6 meses para usar" → custo de oportunidade quantificado
+```
+
+Cada operação madura tem entre **8 e 16 handbooks**: Onboarding High/Mid/Low-touch, Retenção High/Mid/Low-touch, Expansão High/Mid/Low-touch, Risco/Churn, Renovação, Offboarding. Operações mais maduras adicionam handbooks por indústria ou por persona-chave.
+
+A regra de manutenção é dura: **cada handbook tem owner declarado e revisão obrigatória trimestral**. Sem isso, vira documento morto em 6 meses.
+
+## TTFI — Time to First Impact como critério de sucesso
+
+TTFI é o KPI que define se o Onboarding está saudável. É o tempo decorrido entre **assinatura do contrato** e **demonstração mensurável do primeiro pedaço do ROI prometido**.
+
+Não é "cliente está usando". Não é "cliente foi treinado". É "o número que o cliente esperava melhorar mexeu na direção certa, em quantidade auditável".
+
+Benchmarks por motion:
+
+| Motion             | TTFI alvo   | Como medir                                                |
+| ------------------ | ----------- | --------------------------------------------------------- |
+| **No-touch (PLG)** | &lt;14 dias | Activation event no produto (uso de feature-chave)        |
+| **Low-touch**      | 30-60 dias  | Métrica de sucesso definida no signup, batida em check-in |
+| **Mid-touch**      | 60-90 dias  | Métrica + Adoption Score >70                              |
+| **High-touch**     | 90 dias     | Métrica + QBR formal validando                            |
+
+TTFI ruim tem três sintomas:
+
+1. **Churn early** (cliente sai antes de 90 dias) — dor não foi resolvida, valor não chegou.
+2. **NRR baixo** — sem first impact validado, expansão não acontece.
+3. **Renovação difícil** — sem QBR estruturada, momento da renovação vira negociação fria.
+
+A operação que estrutura TTFI corretamente tem GRR (Gross Retention) acima de 85% no primeiro ano e NRR (Net Retention) acima de 110%. Sem TTFI estruturado, GRR fica em 70-80% e NRR não passa de 100%.
+
+## A regra do "se você não consegue mostrar o template"
+
+A frase âncora deste pilar, que vem direta do princípio 7:
+
+> Se você não consegue mostrar o template que escolheu para uma conversa específica, você não fez venda consultiva — fez improvisação.
+
+Improvisação não escala, não treina o próximo hire, não vira dado. Cada conversa importante (discovery, demo, proposta, kickoff, QBR, renovação) deve ter um template ou framework do qual o vendedor parte. A criatividade está em **adaptar o template ao contexto**, não em inventar do zero.
+
+Operações que vivem em improvisação têm três sinais clássicos:
+
+- Ramp-up de novos hires demora 6-8 meses (ou nunca termina).
+- Pipeline depende de 1-2 vendedores de elite que carregam o ano nas costas.
+- Gerente de vendas vira "vendedor sênior reforço" em deals difíceis, em vez de coach de processo.
+
+Operações que padronizaram processo têm:
+
+- Ramp-up em 3-4 meses, com curva previsível.
+- Distribuição de pipeline mais homogênea entre vendedores.
+- Gerente de vendas atua como coach (puxa exemplo do playbook, mostra anti-padrão), não como reforço tático.
+
+## Gates de saída do Pilar 3
+
+A operação considera o Pilar 3 implementado quando:
+
+- **Playbooks M1-M8** documentados, em formato 1 página, com critérios objetivos e colaterais linkados.
+- **Handbooks 2-3 páginas** documentados para cada motion ativo × cada momento da jornada (mínimo 8, típico 12-16).
+- **Cada handbook** tem owner declarado e revisão trimestral agendada.
+- **TTFI** declarado, mensurado por motion, e reportado em MBR.
+- **Ramp-up médio** dos últimos 3 hires &lt;4 meses (sinal de processo replicável).
+- **GRR** ≥85% no primeiro ano dos clientes ativos.
+
+Quando esses gates estão verdes, a operação consegue dobrar de tamanho sem dobrar a senioridade do time. É o teste mais duro deste pilar.
+
+## Conexões com outros pilares
+
+- **Pilar 1** garante que os campos referenciados nos Playbooks/Handbooks existem com nomenclatura consistente.
+- **Pilar 2** define a metodologia que estrutura os Playbooks (qual framework de qualificação aplicar em cada estágio).
+- **Pilar 4** é onde os Playbooks viram cards visíveis no CRM em cada estágio do deal/conta.
+- **Pilar 5** consome a aderência aos Playbooks e Handbooks como input do MBR (medir conformidade do time).
+
+Templates aplicáveis: T3 — Handbook 2-3 páginas (no Módulo 03 — Templates).
+
+<CalloutCertificacao chapter="default" />

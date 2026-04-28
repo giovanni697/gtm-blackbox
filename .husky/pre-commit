@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+set -e
+
+# ─── 1. Verificação de root (§1.13.1 + §1.13.3) ────────────────────────────
+# Garante que o git foi inicializado dentro de gtm-blackbox/, NÃO na raiz pai.
+ROOT="$(git rev-parse --show-toplevel)"
+case "$ROOT" in
+  */gtm-blackbox)
+    : ;;
+  *)
+    echo "❌ ABORTANDO: git root é '$ROOT'."
+    echo "   Esperado: caminho terminando em '/gtm-blackbox'."
+    echo "   Veja §1.13 do PROMPT_CLAUDE_CODE.md."
+    exit 1 ;;
+esac
+
+# ─── 2. Pre-flight strings banidas em content/ (§1.13.4 + §1.13.6) ────────
+# Bloqueia commits que vazem nomes de clientes / pessoas internas / valores.
+if [ -d "content" ]; then
+  BANNED='Amicci|V4 Company|V4 Cohort|CRMBonus|Galileo|Plannera|Assertiva|Housi|Piwi|LigueLead|Cortex|Octo|Magazord|Vick|ClickSign|Resultados Digitais|Omie|Matheus Pinheiro|Felipe Barreiros|Konstantine|R\$300M|R\$10M NewARR|R\$937'
+  if grep -riE "$BANNED" content/ 2>/dev/null; then
+    echo ""
+    echo "❌ ABORTANDO: strings banidas detectadas em content/."
+    echo "   Anonimize antes de commitar (veja §1.13.4)."
+    echo "   Permitido: 'uma rede de franquias com 4.400 unidades' / 'uma fintech B2B em ARPE'."
+    exit 1
+  fi
+fi
+
+# ─── 3. lint-staged (ESLint + Prettier on staged files) ──────────────────
+npx lint-staged

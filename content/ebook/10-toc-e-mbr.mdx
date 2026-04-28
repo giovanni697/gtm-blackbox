@@ -1,0 +1,223 @@
+---
+title: 'TOC e MBR — o ritual operacional que mantém a velocidade'
+slug: '10-toc-e-mbr'
+order: 10
+estimatedReadingMinutes: 16
+lastUpdated: '2026-04-26'
+pillar: 'Ritual'
+status: 'published'
+---
+
+O Capítulo 7 (Pilar 5) introduziu o Loop de Melhoria Contínua. Este capítulo aprofunda dois componentes que merecem detalhe: a **Teoria das Restrições** como método de diagnóstico, e o **MBR** como ritual operacional que sustenta a melhoria.
+
+A diferença entre operações que mantêm velocidade e operações que estagnam não está em quem trabalha mais. Está em **quem identifica o gargalo certo, ataca apenas ele, e mede o resultado em ciclo curto**. Isso é TOC + MBR. O resto é teatro de revisão.
+
+## TOC — origem e tradução para GTM
+
+Eli Goldratt formulou a Teoria das Restrições em 1984 (livro _A Meta_). A teoria nasceu na manufatura: por que linhas de produção ficam abaixo da capacidade nominal? Sua resposta — agora consenso — é que **todo sistema tem um único gargalo dominante**, e otimizar qualquer parte que não seja esse gargalo é desperdício.
+
+A tradução para GTM exige cuidado. O sistema é o funil M1-M8. O gargalo é o estágio cuja taxa de conversão está mais distante do benchmark. Throughput é receita.
+
+### Os 5 Focusing Steps em GTM
+
+**1. Identify (identificar o gargalo)**
+
+Comparar conversão de cada estágio M1→M2, M2→M3, etc. ao benchmark do motor:
+
+| Transição                | Benchmark Mid-Market (Pavilion) | Sua taxa | Delta |
+| ------------------------ | ------------------------------- | -------- | ----- |
+| M1 → M2 (Account → MQA)  | 10-20%                          | \_       | \_    |
+| M2 → M3 (MQA → SQL)      | 30-50%                          | \_       | \_    |
+| M3 → M4 (SQL → SAL)      | 50-70%                          | \_       | \_    |
+| M4 → M5 (SAL → Won)      | 20-33%                          | \_       | \_    |
+| M6 → M7 (Ativo → Adoção) | 90-95%                          | \_       | \_    |
+| GRR                      | ≥85%                            | \_       | \_    |
+| NRR                      | ≥110%                           | \_       | \_    |
+
+A transição com maior delta negativo é o gargalo. Importante: **delta percentual** importa mais que delta absoluto. Cair 10pp em SQL→SAL (de 70% para 60%) é mais grave que cair 5pp em Account→MQA (de 18% para 13%) — porque o impacto em throughput total é maior.
+
+**2. Exploit (explorar o gargalo sem $ novo)**
+
+Antes de pedir headcount, ferramenta ou orçamento, atacar o gargalo com o que já existe.
+
+Exemplos de exploitation por estágio:
+
+- Gargalo M1→M2: revisar critério de inclusão de conta na LCA; melhorar enrichment; ajustar tema das campanhas.
+- Gargalo M2→M3: refinar critério de qualificação no SDR; reduzir tempo entre engagement e discovery; treinar Discovery skills.
+- Gargalo M3→M4: melhorar metodologia de Discovery (perguntas de quantificação); aumentar tempo em mapping de stakeholders.
+- Gargalo M4→M5: revisar Pricing & Negotiation playbook; reduzir desconto via Value Selling; trabalhar Champion arming.
+- Gargalo M6→M7: estruturar Onboarding com TTFI claro; QBRs proativas em D+30 e D+60.
+- Gargalo GRR baixo: identificar Health Score baixo cedo; intervenções preventivas; revisar fit.
+- Gargalo NRR baixo: estruturar Expansion Plays; identificar whitespace; capacitar CSMs em vendas.
+
+**3. Subordinate (subordinar o resto)**
+
+Os outros estágios não devem rodar mais rápido que o gargalo absorve. Se SDR gera 200 SQLs/mês mas AE só processa 100/mês, gerar mais SQL piora a operação — deals envelhecem na fila, qualidade percebida cai, AE fica frustrado, vendedor perde foco.
+
+A regra: alinhar capacity de cada estágio com a capacidade do gargalo. Quando o gargalo for resolvido, o resto pode acelerar.
+
+**4. Elevate (elevar o gargalo com $ novo)**
+
+Quando exploitation esgota, investir. Mas só depois.
+
+Investimentos típicos:
+
+- Mais headcount no estágio gargalo (mais SDRs, mais AEs, mais CSMs).
+- Ferramentas específicas (intent data, sales engagement platform, CS platform).
+- Programas de capacitação intensiva.
+- Parcerias estratégicas.
+
+A regra de Goldratt: **só faz sentido investir após exploration esgotada**. Empresas que pulam exploitation gastam capital em coisas que não atacam o gargalo real.
+
+**5. Repeat (repetir)**
+
+Quando o gargalo move (porque você o resolveu), volte ao passo 1. O novo gargalo pode estar em outro estágio.
+
+Exemplo de progressão típica de uma operação ARPE em 12 meses:
+
+- Mês 1-3: gargalo era M2→M3 (MQA→SQL). Exploit + Elevate (treinamento de Discovery + 1 SDR sênior). Resolvido para benchmark.
+- Mês 4-6: gargalo move para M4→M5 (SAL→Won). Win rate baixo. Exploit (revisar metodologia de Negotiation). Move para benchmark.
+- Mês 7-9: gargalo move para Onboarding (TTFI). NRR baixo. Investir em CSM staffing + processo. Move para benchmark.
+- Mês 10-12: gargalo move para Expansion (whitespace mapping). E o ciclo continua.
+
+**Cada gargalo resolvido aumenta o throughput total. E o próximo gargalo aparece em outro lugar — porque o sistema sempre tem um.**
+
+## Pensamento Lógico — causa-raiz, não sintoma
+
+TOC identifica onde está o gargalo (qual estágio). Pensamento Lógico identifica **por que ele é o gargalo**.
+
+A diferença é crítica. "Win rate caiu" é sintoma. "Win rate caiu porque X" é causa-raiz. Atacar sintoma sem causa-raiz é jogar dinheiro fora.
+
+### Os 3 movimentos do Pensamento Lógico
+
+**1. Realidade Atual (Current Reality Tree)**
+
+Mapear cause-effect em árvore. Sintoma no topo, causas-raiz na base.
+
+Exemplo:
+
+```
+SINTOMA: Win rate de SAL→Won caiu de 33% para 22%
+   ↑
+EFEITO INTERMEDIÁRIO: Deals fecham mais por desconto agressivo
+   ↑
+EFEITO INTERMEDIÁRIO: Champion não sustenta ROI internamente
+   ↑
+CAUSA-RAIZ: Discovery não quantifica impacto financeiro consistentemente
+   ↑
+CAUSA-RAIZ MAIS PROFUNDA: Vendedor não tem template de quantificação por indústria
+```
+
+A pergunta-teste: **se eu remover essa causa, o sintoma desaparece?** Se não, ainda há camada mais profunda.
+
+**2. Conflito Central (Conflict Cloud)**
+
+Gargalos persistentes geralmente não são problemas técnicos — são **conflitos de premissa não resolvidos**. Por exemplo:
+
+- "Precisamos qualificar mais agressivamente" vs "Precisamos manter pipeline cheio".
+
+Os dois lados são razoáveis isolados. O conflito é que parecem mutuamente exclusivos. A operação fica presa adotando um lado e ignorando o outro — e o gargalo persiste.
+
+A "injection" (injeção, no jargão de Goldratt) é uma terceira premissa que dissolve o conflito. No exemplo:
+
+> _Premissa que dissolve:_ "qualificar agressivamente o que entra E gerar mais inbound em paralelo, em vez de tentar qualificar o pipeline existente que está corrompido."
+
+A injection não é compromisso — é uma rota que torna ambos os lados verdadeiros.
+
+**3. Solução Futura (Future Reality Tree)**
+
+Construir o estado desejado em **pré-requisitos**, não em listas de tarefas.
+
+Pré-requisitos são condições que precisam ser verdade para o estado-alvo existir. Por exemplo:
+
+```
+ESTADO-ALVO: Win rate SAL→Won >30% sustentado por 3 trimestres
+
+PRÉ-REQUISITOS
+- Discovery quantifica impacto financeiro em 90%+ dos deals
+- Vendedor tem template de quantificação por indústria
+- Pipeline review semanal valida quantificação antes de avançar
+- Champion arming está documentado em handbook
+- Negotiation playbook tem Value Selling como default
+```
+
+Cada pré-requisito vira hipótese auditável. O Plano de Ação ataca o pré-requisito mais ausente.
+
+## MBR — anatomia da reunião
+
+Recapitulando do Capítulo 7, com mais detalhe:
+
+### Antes da MBR (preparação obrigatória)
+
+Sem preparação, MBR vira reunião improdutiva. A regra é **dossiê pré-lido**:
+
+- 24-48h antes: head de RevOps envia dossiê com Big Numbers, GTM-5, funil M1-M8 com deltas vs benchmark, e pré-identificação do gargalo principal.
+- Cada participante chega com dossiê lido. Reunião não revisa dado — discute hipótese e plano.
+
+### Durante a MBR (90 min)
+
+Pauta canônica revisada com timing rígido:
+
+```
+00-05min · Big Numbers (5min)
+   - ARR, GRR, NRR, Pipeline Coverage, CAC Payback.
+   - Comparar com mês anterior + meta do trimestre.
+
+05-15min · GTM-5 (10min)
+   - R$/MQL, SQLs/SDR/mês, Deals/AE/mês, Contas/CSM, Upsells/CS.
+   - Identificar trend (melhorou? piorou? estável?).
+
+15-30min · Funil M1-M8 (15min)
+   - Conversão por estágio vs benchmark.
+   - Highlight no estágio com maior delta negativo.
+
+30-40min · Identificação de Gargalo (10min)
+   - Confirmar que o gargalo é o que o dossiê pré-identificou.
+   - Se outro estágio for mais crítico, debate explícito.
+
+40-60min · Pensamento Lógico (20min)
+   - Realidade Atual (causa-efeito do gargalo).
+   - Conflito Central (se aplicável).
+   - Solução Futura (pré-requisitos).
+
+60-75min · Plano de Ação (15min)
+   - Hipótese, owner, prazo, métrica, custo, trade-off.
+   - Validar definition of done.
+
+75-85min · Roadmap atualizado (10min)
+   - Now / Next / Later.
+   - O que entra, o que sai.
+
+85-90min · Compromissos (5min)
+   - Quem faz o quê até a próxima MBR.
+   - Próximo MBR confirmado em data.
+```
+
+### Depois da MBR (follow-up)
+
+- Ata distribuída em 24h: decisões + planos + owners + prazos.
+- Roadmap atualizado em ferramenta compartilhada (Notion, Linear, ou similar).
+- Owners de planos enviam update semanal curto (3 linhas) ao head de RevOps.
+- Próximo MBR começa com check de aderência aos planos do mês anterior.
+
+## Anti-padrões clássicos do MBR
+
+A maioria das MBRs falha por uma de cinco razões:
+
+1. **Reporting em vez de diagnóstico.** A reunião vira apresentação de slides. Decisão zero. Solução: cortar slide deck, ir direto pra discussão.
+
+2. **5+ gargalos nomeados simultaneamente.** Se tudo é gargalo, nada é. Solução: TOC força UM gargalo principal.
+
+3. **Plano sem owner ou métrica.** "Vamos melhorar discovery" não é plano. Solução: formato canônico (capítulo 7) é não-negociável.
+
+4. **Reuniões cancelas com frequência.** Sinal de que MBR não está sendo prioridade da liderança. Solução: head de RevOps + CEO firmam compromisso de aderência.
+
+5. **Escalada para detalhes operacionais.** MBR vira micromanagement. Solução: detalhes de execução vão para 1:1 do gerente; MBR fica em hipótese e direcional.
+
+## A frase âncora deste capítulo
+
+> Velocidade não é função de quanto trabalho o time faz. É função de quão curto é o ciclo entre identificar um sintoma e eliminar a causa. TOC + MBR é o que encurta esse ciclo.
+
+Quando uma operação adota TOC + MBR com disciplina por 6+ meses, ela atravessa o limiar do top quartile. Não porque trabalha mais — porque **escolhe melhor o que trabalhar**.
+
+<CalloutCertificacao chapter="pilar-5" />

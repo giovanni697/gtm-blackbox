@@ -1,0 +1,154 @@
+---
+title: 'Princípios: a moldura antes da engenharia'
+slug: '01-principios-edson-rigonatti'
+order: 1
+estimatedReadingMinutes: 18
+lastUpdated: '2026-04-26'
+pillar: 'Princípios'
+status: 'published'
+---
+
+A GTM BlackBox consolida a Metodologia completa de Engenharia de Go-to-Market desenvolvida pela SCIENT e inspirada e embasada em princípios que vão ajudar fundadores e líderes de receita a construir fundações sólidas por trás do crescimento de suas empresas.
+
+Esta metodologia não nasce do nada. Ela é a sedimentação de uma vivência de pelo menos dez anos. Uma das pessoas com maior participação das bases da metodologia é o Edson Rigonatti — começando lá em 2015 nos textos do blog da Endeavor, passando pela Astella, agora no Clube dos 10x e materializada também na Certificação de Engenharia de GTM, onde ele entra como instrutor convidado e parceiro na construção do programa.
+
+Edson investiu nas empresas que viraram unicórnios no Brasil. Foi o investidor da minha primeira empresa, é parceiro e mentor da SCIENT, e participou — princípio a princípio — da construção desta metodologia. Boa parte do que está nas próximas duzentas páginas deste ebook tem digital dele.
+
+Em uma indústria que vive vendendo o apocalipse, nosso objetivo aqui é fazer o contrário: mostrar os ciclos que se repetem, os princípios que permanecem, e o quanto dos resultados depende muito mais da disciplina de construção do que de qualquer onda tecnológica.
+
+Os princípios deste capítulo são os **Primeiros Princípios que inspiram a SCIENT desde antes da SCIENT existir**. Não são dogma. São o terreno firme onde a construção pisa quando todo o resto está em movimento. Os pilares dos próximos onze capítulos podem (e devem) ser questionados — mas sempre à luz destes princípios. Quando um capítulo parecer derivar para "automação" ou "ferramenta de IA" sem amarração com produtividade humana e foco operacional, vale voltar aqui.
+
+## Princípio 1 — Produtividade humana é o núcleo da máquina
+
+Antes de qualquer agente, qualquer dashboard, qualquer pipeline automatizado, há uma pergunta única: **a unidade humana do time está produzindo mais output por headcount do que produzia ontem?**
+
+> "As plataformas, elas já aprenderam a calcular ganho de produtividade humana. Volta para o meu ponto inicial da importância de saber produtividade humana."
+> — Edson Rigonatti
+
+A frase parece banal até a gente puxar a implicação. Antes de aprovar um agente de IA, antes de comprar uma ferramenta de enrichment, antes de contratar um SDR adicional, é preciso ter quatro números na mesa:
+
+1. Volume de atividade antes da intervenção.
+2. Produtividade por headcount antes.
+3. Volume de atividade depois.
+4. Custo da intervenção (tokens de IA, mensalidade da ferramenta, salário do novo headcount) versus margem bruta extra que ela gera.
+
+A intuição correta vem do tema repetido nas masterclasses: AI não elimina o ser humano — ela multiplica a produtividade de quem já tem processo mapeado. Se um closer fecha 12 negócios hoje, talvez chegue a 20. Um BDR que processa 50 SQLs por mês talvez chegue a 100. Não a 1.000.
+
+O que muda estruturalmente é a importância de **Revenue Operations**. O próximo líder de GTM vai ser o arquiteto de produtividade — não o melhor vendedor.
+
+Toda a engenharia de GTM da SCIENT desce daqui. Os 5 pilares (arquitetura de dados, metodologia, processos, stack, loop) existem porque cada um, sozinho ou em combinação, eleva produtividade humana mensurável. Quando um pilar não consegue justificar essa elevação, ele não entra na operação.
+
+A pergunta de auto-avaliação para o leitor: **você sabe qual é a produtividade humana de cada etapa do seu funil?** Topo, meio, fundo — em números. Se não sabe, você não tem máquina. Tem um conjunto de pessoas trabalhando muito.
+
+## Princípio 2 — Velocidade é parte da definição de crescimento
+
+> "Crescer só não é o suficiente. A gente precisa crescer numa velocidade que seja compatível com a velocidade da tropa de elite. O top quartile cresce a taxas do triple, triple, double, double, double."
+> — Edson Rigonatti
+
+Triple-triple-double-double-double. Em cinco anos, o top quartile multiplica receita por 3 × 3 × 2 × 2 × 2 = **72×**. Quem cresce 30% ao ano por cinco anos multiplica por menos de 4×. A diferença não é incremental — é categórica.
+
+Por que isso importa para a engenharia de GTM? Porque **velocidade é um output do sistema, não um traço de personalidade do time**. Se a operação não tem arquitetura de dados, taxa de conversão entre estágios não é mensurável. Se não tem metodologia unificada, cada vendedor decide na hora o que é qualificação. Se não tem processos padronizados, ramp-up de novos hires demora 8 meses em vez de 4. Se não tem stack parametrizada, cada gerente roda relatório próprio.
+
+A consequência é direta: empresas com velocidade do top quartile capturam capital global. Empresas em velocidade mediana competem entre si por capital local. Os fundos que precisam alocar bilhões procuram quem cresce rápido com eficiência — porque é assim que devolvem múltiplo aos seus LPs.
+
+## Princípio 3 — Metabolismo: 60/30/10
+
+Toda organização tem um metabolismo — uma proporção de tempo, headcount e atenção que destina a três coisas:
+
+- **60% — execução**: gerar receita hoje. Vender, entregar, cobrar, atender.
+- **30% — melhoria do motor**: reduzir o custo unitário do que está sendo executado. Refinar processo, parametrizar ferramenta, treinar time, consolidar dado.
+- **10% — corte**: descartar o que não move agulha. Reuniões mortas, relatórios não consumidos, integrações órfãs, projetos paralisados.
+
+Quando uma operação está acima de 80% em execução, ela está sufocando o próprio motor. Não sobra ar para padronizar — então o custo unitário da próxima venda é igual ao da venda anterior. Velocidade morre.
+
+A inversão também é doente: time gastando 50% em "melhoria" é time procrastinando. O motor existe para girar, não para ser polido em silêncio.
+
+A engenharia de GTM da SCIENT propõe que esses 30% de melhoria sejam organizados, não livres. Cada sprint de melhoria atravessa um ciclo: identificar gargalo via TOC, formular hipótese, implementar mudança, medir delta. Esse ciclo é o que o Pilar 5 (Loop de Melhoria Contínua) operacionaliza. Sem ele, os 30% viram debate.
+
+## Princípio 4 — Foco é uma restrição física, não uma escolha filosófica
+
+A célula-tronco de uma operação inicial tem quatro variáveis:
+
+1. **Uma persona** — um perfil de comprador específico, com firmografia, dor e padrão de compra documentados.
+2. **Um produto** — uma oferta com proposta de valor única, não um catálogo.
+3. **Uma fonte de demanda** — inbound _ou_ outbound _ou_ PLG _ou_ parceiro. Não os quatro.
+4. **Um modal de fechamento** — high-touch _ou_ low-touch _ou_ no-touch _ou_ canal. Não os quatro.
+
+Se qualquer uma dessas quatro variáveis duplica, o foco quebra.
+
+A dispersão de ticket médio é o principal diagnóstico. Me diz qual é o seu ticket médio, e eu te digo que empresa você vai ser. Operações com tickets que vão de R$5K a R$500K no mesmo CRM não estão "atendendo um mercado amplo" — estão diluindo a célula-tronco.
+
+A unidade de crescimento implícita aqui é cerca de **R$50 milhões por ano** por unidade focada. Para sair de R$50M para R$200M ARR, você não tenta crescer a unidade existente cinco vezes — você adiciona três unidades novas, cada uma com seu próprio 1×1×1×1, sem dispersar a primeira. Escala é conquistar territórios contíguos, um por vez, como a invasão da Normandia. Não todos os territórios ao mesmo tempo.
+
+A pergunta para auto-avaliação: **quantas personas, produtos, fontes de lead e modais de venda você tem rodando hoje?** Se a resposta for "mais de um em qualquer das quatro", esse é o seu gargalo principal. Antes do CRM, antes da metodologia, antes da IA.
+
+## Princípio 5 — Os quatro modais de fechamento
+
+Toda venda B2B existe em um de quatro modais — definidos pela quantidade de toque humano necessária para o cliente assinar:
+
+- **No-touch** — produto-led, comunidade, self-serve. O cliente entra, prova, paga, escala. ACVs típicos: R$1K–R$20K. Cycle: dias.
+- **Low-touch** — SDR + email + demo curta. Volume alto, ticket baixo a médio. ACVs: R$5K–R$50K. Cycle: 1-4 semanas.
+- **High-touch** — venda consultiva, múltiplos stakeholders, customização. ACVs: R$100K+. Cycle: 60-180 dias.
+- **Canal** — partner-led. Você habilita parceiros, eles fecham. Métrica é parceiros ativos × deals por parceiro.
+
+Cada modal tem uma economia diferente. Cada modal precisa de um playbook diferente. Cada modal escala por uma alavanca diferente — no-touch escala por loops virais, low-touch por automação de outreach, high-touch por templetização do consultivo (princípio 7), canal por GTM dos parceiros.
+
+**Tentar operar dois modais com o mesmo time, o mesmo CRM e o mesmo dashboard é o erro mais comum em mid-market.** O custo de não diferenciar é silencioso: o ICP do high-touch contamina a triagem do low-touch, o SDR começa a tratar deal de R$500K como deal de R$15K, e a métrica agregada esconde o que cada motion realmente entrega.
+
+A consequência operacional aparece no Capítulo 8 (Modais de GTM) e na Calculadora de Capacity (Módulo 4). Cada motion ativo na sua operação tem que estar declarado, com ACV, ciclo, taxa de conversão e capacity por função separados. Sem isso, forecast vira ficção.
+
+## Princípio 6 — Os 12 passos cognitivos da venda
+
+Toda compra — do chiclete ao avião — passa pelos mesmos 12 passos cognitivos. A maioria das máquinas de vendas espera o cliente fazer esse percurso sozinho. As que crescem no top quartil mapeiam cada passo e entregam o colateral certo antes que a objeção apareça.
+
+> "Uma venda consultiva, independente da complexidade, passa por aqueles mesmos 12 passos cognitivos. Se o vendedor tem um arsenal de ideias para que ele possa, a cada situação, escolher o que vai usar..."
+> — Edson Rigonatti
+
+Aqui está a parte mais sutil. **Os 12 passos não são estágios do funil** (MQL → SQL → SAL → Contrato). Estágios são marcos administrativos do CRM. Os 12 passos são **momentos cognitivos do comprador** — o que está acontecendo dentro da cabeça dele entre "nunca ouvi falar de você" e "assino o contrato".
+
+A consequência operacional é que os playbooks não devem ser organizados por estágio, mas por momento cognitivo. Quando o vendedor abre o playbook, ele não está procurando "o que faço no SQL". Está procurando "o que faço quando o decisor econômico ainda não viu o problema com clareza". Esses dois pedidos parecem similares, mas geram materiais radicalmente diferentes.
+
+A pergunta para o leitor: **você tem a jornada de compra da sua persona mapeada nos 12 passos cognitivos? Tem o colateral certo para cada etapa?** Se não, esse é o próximo sprint — antes de qualquer ferramenta nova.
+
+Isto entra em profundidade no Capítulo 4 (Pilar 2 — Metodologia Unificada) e no Template T2 (Workflow de GTM).
+
+## Princípio 7 — Templetização da venda consultiva
+
+O paradoxo da venda consultiva é que ela parece, em superfície, ser anti-escala. Cada conversa é única, cada cliente tem nuances, cada decisor pede uma posição específica.
+
+A leitura correta inverte essa intuição. **A venda consultiva escala via arsenal — não via roteiro**. A diferença é crítica:
+
+- **Roteiro** — sequência fixa que o vendedor cumpre. Falha quando o cliente sai do trilho.
+- **Arsenal** — biblioteca de templates, ideias, frames, perguntas, casos. O vendedor escolhe, em cada situação, qual instrumento puxar.
+
+Quando o Edson levanta capital institucional, ele não improvisa cada conversa. Tem um arsenal mapeado: para cada possível objeção, cada possível stakeholder, cada possível ângulo de tração, ele já sabe qual é o template que provou funcionar. **A criatividade fica na escolha do instrumento, não na invenção do instrumento.**
+
+Esta é a base operacional dos Handbooks 2-3 páginas (Pilar 3 — Processos Padronizados). Um Handbook não é manual de processo — é página de arsenal. Por motion, por momento cognitivo, por tipo de stakeholder. Onboarding High-touch tem um handbook diferente de Onboarding Low-touch, porque o arsenal é diferente.
+
+A regra operacional para o time é dura: **se você não consegue mostrar o template que escolheu para uma conversa específica, você não fez venda consultiva — fez improvisação**. Improvisação não escala, não treina o próximo hire, não vira dado.
+
+## A frase-âncora — IA depois, não antes
+
+Os princípios acima precedem qualquer conversa sobre inteligência artificial. **Esta sequência é proposital**: produtividade humana primeiro, IA depois.
+
+A frase que ancora o resto deste ebook é simples:
+
+> Workflows, decisões, colaterais. Aí você começa a automatizar. Depois usa inteligência artificial. Não antes.
+
+A maior parte dos projetos de IA em GTM dão errado por uma razão única: implementam ferramenta em cima de processo inexistente. Sem workflow documentado, IA não tem o que automatizar — só gera ruído cosmético com custo de tokens.
+
+A consequência editorial deste ebook é que **IA não aparece como protagonista nos capítulos 1 a 10**. Ela aparece, em formas pontuais, como ferramenta — enriquecimento via Clay, transcrição via Fathom, scoring de leads via ML treinado em dados próprios. Mas o protagonismo só vem no Capítulo 11 (Componente AI-Native), depois que toda a moldura humana e operacional já está no lugar.
+
+Não é sobre usar mais ferramentas. **É sobre construir o sistema certo antes de escalar qualquer coisa.** Foco. Workflow. Produtividade humana. Nessa ordem.
+
+## Como ler o restante deste ebook
+
+Os próximos onze capítulos são divididos em três blocos:
+
+- **Capítulo 2** faz a ponte entre estes princípios e a engenharia de GTM da SCIENT, mostrando como cada princípio se desdobra em pilar.
+- **Capítulos 3 a 7** cobrem os 5 pilares da metodologia (Arquitetura de Dados, Metodologia Unificada, Processos Padronizados, Stack Parametrizada, Loop de Melhoria Contínua). Cada pilar abre reconectando-se à Produtividade Humana.
+- **Capítulos 8 a 12** cobrem os componentes operacionais (Modais de GTM, Jornada de Maturidade ARMV/ARPE/ARE, TOC e MBR, Componente AI-Native, Foundational RevOps).
+
+A leitura recomendada é sequencial. Pular direto para o pilar específico onde sua dor está agora funciona, mas perde a moldura que torna a metodologia coerente. Se o tempo for curto, leia este capítulo, o Capítulo 2, e o capítulo do pilar que mais te interessa — e volte aos demais quando precisar diagnosticar gargalos no Loop.
+
+<CalloutCertificacao chapter="principios-edson" />

@@ -1,0 +1,196 @@
+---
+title: 'Modais de GTM e GTM-fit por produto'
+slug: '08-modais-de-gtm-e-gtm-fit'
+order: 8
+estimatedReadingMinutes: 14
+lastUpdated: '2026-04-26'
+pillar: 'Modais'
+status: 'published'
+---
+
+Operação que tenta vender alto-ticket via SDR + e-mail é cara. Operação que tenta vender SaaS de R$50/mês via consultor de venda é cara. Em ambos os casos, o erro é o mesmo: **descasamento entre o produto e o modal de fechamento**.
+
+Os 4 modais já apareceram no Capítulo 1 como princípio. Este capítulo aprofunda: como cada modal opera, quando cada um faz sentido, e como diagnosticar se sua operação está usando o modal certo para o produto certo (GTM-fit).
+
+## Os 4 modais — visão econômica
+
+Cada modal tem economia, ritmo e necessidade de capacity diferentes. A tabela abaixo é o resumo canônico:
+
+| Modal              | ACV típico | Cycle       | Win rate               | CAC dominante          | SDR/AE/CSM                           |
+| ------------------ | ---------- | ----------- | ---------------------- | ---------------------- | ------------------------------------ |
+| **No-touch** (PLG) | R$1K–20K   | &lt;7 dias  | conversão de free→paid | produto + comunidade   | sem SDR/AE; suporte + community      |
+| **Low-touch**      | R$5K–50K   | 1-4 semanas | 16-25%                 | SDR + paid             | SDR:AE = 2:1; CSMs 1:200 contas      |
+| **Mid-touch**      | R$30K–200K | 30-90 dias  | 25-35%                 | inbound + ABM seletivo | SDR:AE = 1.5:1; CSMs 1:50            |
+| **High-touch**     | R$100K+    | 60-180 dias | 30-40%                 | ABM + relacionamento   | SDR:AE = 1:1 ou 0.5:1; CSMs 1:25     |
+| **Canal**          | varia      | varia       | varia                  | habilitação parceiros  | gerentes de canal × parceiros ativos |
+
+Esses números são aproximações. O importante é **a estrutura econômica diferente** que cada modal carrega.
+
+### No-touch (PLG) — produto vende
+
+Características:
+
+- Cliente entra, prova, paga, escala — sem fricção humana.
+- Conversão é função de UX do produto, do onboarding self-serve e da comunidade.
+- Ticket baixo justifica zero CAC humano por venda.
+- Receita escala com volume; LTV vem de retention + expansion automatizada.
+
+Quando faz sentido:
+
+- Produto resolve problema bem definido, com setup curto.
+- Persona é tecnicamente capaz de avaliar sem demo.
+- Mercado é grande o suficiente para volume compensar ticket baixo.
+
+Anti-padrão comum:
+
+- Adicionar SDR para "qualificar" leads PLG. Se o produto precisa de SDR para converter, ele não é PLG — é Low-touch travestido.
+
+### Low-touch — SDR converte
+
+Características:
+
+- SDR identifica intent (inbound) ou cria intent (outbound), qualifica em chamada curta, e passa para AE.
+- AE faz demo + proposta em 1-3 reuniões.
+- Ciclo curto, volume médio, ticket médio.
+
+Quando faz sentido:
+
+- Decisor é a mesma pessoa que vai usar o produto (no-committee).
+- Ticket é médio mas não justifica venda consultiva longa.
+- Produto tem feature-set claro que demo curta consegue cobrir.
+
+Anti-padrão comum:
+
+- Tentar fazer Low-touch enterprise (ticket alto). Resultado: AE faz proposta sem mapear stakeholders, perde para concorrente que fez ABM.
+
+### Mid-touch — meio termo bem operado
+
+Características:
+
+- Híbrido entre Low e High.
+- Ciclo de 30-90 dias com 2-4 stakeholders típicos.
+- Demo, POC parcial, business case quantificado.
+
+Quando faz sentido:
+
+- Ticket entre R$30K e R$200K com decisão de mais de uma pessoa mas não mais de cinco.
+- Produto tem complexidade média (precisa contextualizar mas não customizar pesadamente).
+
+Anti-padrão comum:
+
+- Confundir Mid-touch com Low-touch — pular mapeamento de decisor econômico, perder tempo com champion sem poder.
+
+### High-touch — venda consultiva enterprise
+
+Características:
+
+- Múltiplos stakeholders (5-15+), decision committee formal, paperwork complexo.
+- Ciclo longo (60-180 dias, às vezes 360+ em enterprise pesado).
+- Demo customizada, POC profunda, business case com CFO.
+- AE atua como consultor; SDR (se houver) é altamente especializado.
+
+Quando faz sentido:
+
+- ACV alto o suficiente para sustentar custo de venda consultiva (regra de bolso: ACV > 5× custo do AE).
+- Decisão exige customização ou validação técnica profunda.
+- Cliente espera relacionamento sênior, não transacional.
+
+Anti-padrão comum:
+
+- Tentar escalar High-touch só com headcount sem templetização (princípio 7). Cada AE vira "improvisador sênior", ramp-up é eterno, distribuição de pipeline fica em poucos heróis.
+
+### Canal — partner-led
+
+Características:
+
+- Você não fecha o cliente final — habilita parceiros que fecham.
+- Métrica primária: parceiros ativos × deals por parceiro.
+- Capacity é de **gerentes de canal** (Channel Account Managers), não SDRs/AEs.
+
+Quando faz sentido:
+
+- Mercado é capilarizado e os parceiros já estão presentes.
+- Produto se beneficia de conhecimento local ou vertical do parceiro.
+- Você tem margem para dividir com o canal.
+
+Anti-padrão comum:
+
+- "Programa de parceiros" sem habilitação real. Parceiros assinam contrato, fazem zero deals, e o canal vira teatro.
+
+## GTM-fit — qual modal cabe no seu produto
+
+GTM-fit é a pergunta inversa: dado um produto, qual modal é o certo?
+
+Diagnóstico em 4 dimensões:
+
+### 1. Complexidade do produto
+
+- **Baixa** (setup &lt;1 dia, feature óbvia) → No-touch ou Low-touch.
+- **Média** (setup 1-4 semanas, integrações leves) → Mid-touch.
+- **Alta** (implementação >1 mês, customização) → High-touch.
+
+### 2. Número de stakeholders na decisão
+
+- **1** (o usuário decide) → No-touch ou Low-touch.
+- **2-4** (gerente + time) → Mid-touch.
+- **5+** (committee, CFO, segurança, jurídico) → High-touch.
+
+### 3. Ticket médio
+
+- **&lt;R$20K/ano** → No-touch ou Low-touch.
+- **R$20K-100K/ano** → Mid-touch.
+- **>R$100K/ano** → High-touch (ou Mid-touch agressivo se persona é menor).
+
+### 4. Tamanho de mercado endereçável
+
+- **Mercado grande, ticket pequeno** → No-touch (escala por volume).
+- **Mercado nicho, ticket alto** → High-touch (poucos clientes, muito valor cada).
+- **Combinações intermediárias** → Mid-touch ou Low-touch.
+
+A regra: **escolha o modal mais simples que ainda gera margem positiva**. Cada step para cima na cadeia (no-touch → low → mid → high) aumenta CAC drasticamente. Se o produto cabe em low-touch e você opera high-touch, está queimando capital.
+
+A regra inversa também vale: se o produto exige high-touch e você opera low-touch, está perdendo deals para concorrentes que mapeiam stakeholders.
+
+## Multi-motion — quando faz sentido operar mais de um
+
+Operações em ARPE/ARE costumam operar 2-3 motions simultaneamente. Por exemplo:
+
+- **Self-serve PLG (no-touch)** para SMB.
+- **Inside Sales (low-touch)** para mid-market.
+- **Field Sales (high-touch)** para enterprise.
+
+Operar multi-motion requer **separação rigorosa**: pipelines diferentes no CRM, dashboards segmentados, capacity calculado por motion (não agregado), playbooks/handbooks específicos por motion.
+
+A regra do princípio 4 (foco) ainda vale aqui — só que aplicada **dentro de cada motion**. Cada motion tem seu próprio 1×1×1×1 (uma persona, um produto/feature subset, uma fonte, uma dinâmica). O que muda é que a operação como um todo carrega N células-tronco em paralelo.
+
+Anti-padrão comum em multi-motion:
+
+- Misturar pipelines no CRM ("é o mesmo deal, só muda o tamanho").
+- Capacity calculado agregado (mascara que high-touch está com falta de AE e low-touch com sobra).
+- Playbook único para tudo (mata a especificidade que cada motion exige).
+
+## Diagnóstico do GTM-fit atual
+
+Para auto-avaliar se sua operação está em GTM-fit:
+
+1. **Liste os motions ativos.** Quantos modais sua operação opera hoje? (1 a 5)
+2. **Para cada motion, declare**: ACV típico, cycle típico, win rate típico, headcount alocado.
+3. **Compare com a tabela canônica** acima. Está dentro da banda esperada?
+4. **CAC payback por motion.** Está abaixo de 18 meses? (Benchmark Pavilion para mid-market saudável)
+
+Sinais de GTM-fit ruim:
+
+- ACV está numa banda mas o cycle e o win rate de outra.
+- Time alocado não bate proporção SDR/AE/CSM esperada para o modal.
+- CAC payback acima de 24 meses sem explicação clara.
+- Dispersão de ticket dentro de um mesmo motion >5x.
+
+Quando GTM-fit está ruim, é tipicamente porque a operação está **rodando high-touch em uma economia de low-touch** (custo demais para o ticket que cobra) ou o inverso (perdendo deals enterprise por não fazer ABM).
+
+## Conexão com a Calculadora de Capacity
+
+O Módulo 4 (Forecast & Capacity) opera **multi-motion nativamente**: você declara cada motion ativo com ACV, cycle, win rate, e capacity por função, e a engine calcula gap por (função × motion). Sem essa segmentação, hiring plan vira chute.
+
+Para operação multi-motion, este capítulo é o pré-requisito mental para usar o Módulo 4 com precisão.
+
+<CalloutCertificacao chapter="default" />

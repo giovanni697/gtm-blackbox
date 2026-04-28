@@ -1,0 +1,153 @@
+---
+title: 'Pilar 1 — Arquitetura de Dados: a fundação de tudo'
+slug: '03-pilar-1-arquitetura-de-dados'
+order: 3
+estimatedReadingMinutes: 22
+lastUpdated: '2026-04-26'
+pillar: 'Pilar 1'
+status: 'published'
+---
+
+Sem dado normalizado, não tem máquina. Tem trabalho.
+
+Esta é a regra que define o Pilar 1. Você pode ter o melhor framework de qualificação do mundo, os melhores vendedores, o melhor produto. Se a arquitetura de dados não está em pé, nada disso se traduz em throughput previsível. Cada decisão vira opinião contra opinião, cada relatório vira disputa de versão, e o forecast vira ficção polida.
+
+A Arquitetura de Dados é a fundação porque dela depende a possibilidade de **mensurar produtividade humana** (Princípio 1). Sem mensuração, a operação opera no escuro. Com mensuração, cada etapa do funil tem número auditável — e qualquer intervenção (treinar o time, mudar processo, adicionar IA) pode ser avaliada por delta real, não por percepção.
+
+Este pilar tem cinco sub-camadas. Cada uma resolve uma falha específica que destrói medição. Pular qualquer uma delas é construir Pilar 2 a 5 sobre areia.
+
+## Nomenclatura — todo campo tem um nome canônico
+
+A primeira sub-camada parece banal e é a mais negligenciada. Quando duas pessoas no time se referem ao mesmo dado por dois nomes diferentes, **a operação já perdeu**. Não há relatório que reconcilie isso depois.
+
+A regra é única: para cada entidade do CRM (Conta, Contato, Negócio, Assinatura, Produto, Atividade), existe uma lista canônica de campos com nome em formato `{entidade}_{atributo}__{contexto}` em snake_case. Picklists são fechadas e auditadas. Campos livres são exceção, não regra.
+
+Exemplos canônicos para a entidade **Conta**:
+
+| Campo                          | Tipo     | Picklist                                                        | Owner         |
+| ------------------------------ | -------- | --------------------------------------------------------------- | ------------- |
+| `account_cnpj`                 | text     | —                                                               | Marketing     |
+| `account_industry__primary`    | picklist | 12 valores fixos                                                | Marketing     |
+| `account_revenue_band__brl`    | picklist | `ate_20M_brl` / `20M_200M_brl` / `acima_200M_brl`               | Marketing     |
+| `account_employee_count__band` | picklist | `1_50` / `51_200` / `201_1000` / `acima_1000`                   | Marketing     |
+| `account_motion__primary`      | picklist | `no_touch` / `low_touch` / `mid_touch` / `high_touch` / `canal` | RevOps        |
+| `account_owner__sales`         | user     | —                                                               | Sales Manager |
+
+Note três coisas. Primeira: o sufixo `__brl` ou `__primary` desambigua valor. Segunda: cada campo tem **owner declarado** — quem responde pela qualidade do dado. Terceira: as bandas de faturamento usam os patamares dos estágios ARMV/ARPE/ARE (capítulo 9), não bandas inventadas pelo time.
+
+Quando essa nomenclatura está em pé, é possível fazer a pergunta inversa: "todas as contas em estágio M3 (SQL) têm `account_motion__primary` preenchido?". Se a resposta é "85%", você acabou de descobrir que 15% do pipeline não tem categoria de motion — e qualquer relatório de capacity por motion está distorcido em pelo menos 15%.
+
+## Critérios — transição entre estágios é objetiva, não opinião
+
+Cada estágio do funil tem **critério de saída objetivo**. Não é o vendedor decidir "isso é SQL". É o vendedor verificar uma checklist e marcar quando todos os itens estão verdes.
+
+A nomenclatura de funil canônica da SCIENT é **M1–M8**:
+
+| Estágio | Nome     | Critério de saída (objetivo)                                                              |
+| ------- | -------- | ----------------------------------------------------------------------------------------- |
+| M1      | Account  | Está na lista de contas-alvo (LCA) no CRM                                                 |
+| M2      | MQA      | Participou de webinar fundo OR baixou material rico OR pediu reunião                      |
+| M3      | SQL      | Discovery call concluída + dor mapeada + orçamento/urgência &lt;3m + decisor identificado |
+| M4      | SAL      | Score de framework de qualificação >50% + proposta apresentada + champion identificado    |
+| M5      | Contrato | Minuta aprovada pelo decisor econômico + assinada                                         |
+| M6      | Ativo    | TTFI atingido + primeiro impacto demonstrado                                              |
+| M7      | Adoção   | Métrica de sucesso atingida + Health Score >80                                            |
+| M8      | Expansão | Whitespace identificado + proposta de expansão aceita                                     |
+
+A diferença entre operações em ARMV e operações em ARPE muitas vezes está aqui. Em ARMV, o critério "decisor identificado" é interpretado solto: "falei com alguém que parecia decisor". Em ARPE, é específico: "tenho nome, cargo e e-mail do decisor econômico no campo `deal_decisor_economico__contact_id`, e ele participou de pelo menos uma chamada gravada nas últimas 21 dias". Esse delta de especificidade muda tudo.
+
+Critérios objetivos têm três consequências:
+
+1. **Win rate por estágio passa a ser confiável.** Quando o critério de SQL é o mesmo para todo vendedor, a taxa SQL→SAL mede metodologia, não interpretação.
+2. **Forecasting fica menos enviesado.** Vendedor otimista e vendedor pessimista chegam ao mesmo SAL — porque o critério é o mesmo.
+3. **Coaching vira possível.** O gerente de vendas consegue olhar para um deal travado em SAL e fazer a pergunta certa: "qual item da checklist de SAL está faltando?".
+
+## Originação — todo dado tem ponto e momento de criação
+
+Originação responde a três perguntas para cada dado: **quem cria, quando cria, com qual gatilho**. Sem essas três respostas explícitas, dado fica órfão. Órfão não é confiável.
+
+Exemplos de regras de originação:
+
+- **`account_industry__primary`** é preenchido pelo enrichment automático (Clay/ZoomInfo) quando a conta é criada. Se o enrichment falha, a conta entra em fila de revisão manual com SLA de 48h.
+- **`deal_decisor_economico__contact_id`** é preenchido pelo AE no fim da segunda discovery call. Se ainda não está preenchido após a terceira call, o deal não pode avançar para SAL (validation rule).
+- **`subscription_health_score`** é calculado pelo modelo de ML em ciclo semanal, alimentado por uso do produto + NPS + tickets de suporte + atividade do CSM.
+
+A boa prática é o **enrichment-at-source**: o dado é enriquecido no momento em que entra no sistema (por exemplo, no formulário de inbound, na criação da conta, no momento do handoff). Enrichment posterior (em batch noturno, em pipeline de BI) sempre cria janela de inconsistência onde o time toma decisão sobre dado parcial.
+
+## Centralização — uma fonte de verdade
+
+A quarta sub-camada resolve a doença mais comum em mid-market: **dados duplicados em múltiplos sistemas, sem reconciliação**. O CRM tem uma versão da conta. A planilha do CSM tem outra. O ERP tem outra. O dashboard executivo agrega sem reconciliar.
+
+A regra é simples: existe **uma fonte de verdade por entidade**. Para Conta, é o CRM. Para Assinatura, é o ERP. Para uso do produto, é o sistema de telemetria. Os outros sistemas consomem essa fonte via integração — não mantém cópias divergentes.
+
+Implementação prática:
+
+- **Entity Model canônico** declarado: para cada entidade, qual sistema é a fonte e qual é a chave primária (Conta = CNPJ; Contato = e-mail corporativo; Assinatura = ID do ERP; Produto = SKU).
+- **Matching & Merge Engine** que detecta e resolve duplicatas dentro de cada sistema. Em CRMs maduros, isso é determinístico (CNPJ exato) + fuzzy (variações de razão social) + ML (matching probabilístico).
+- **Sync Patterns** declarados: CDC near-real-time entre sistemas críticos (CRM ↔ ERP), batch noturno para sistemas analíticos (CRM → Data Warehouse), event-driven para gatilhos pontuais (assinatura criada → notifica CSM).
+- **Semantic Layer** acima do Data Warehouse: ARR, MRR, NRR, CAC, LTV, Pipeline Coverage têm uma definição única, consumida por todos os relatórios.
+
+Quando essa centralização está em pé, a frase "depende de qual relatório você está olhando" deixa de existir.
+
+## Enriquecimento — dado bruto vira dado utilizável
+
+A última sub-camada é o que transforma dado mínimo em dado de decisão. Quando uma conta entra no CRM com apenas CNPJ + razão social, ela ainda não é acionável para o time. Falta industry, revenue band, employee count, technographics, decisor identificado, e dezenas de outros campos.
+
+Enrichment automatiza essa transformação. Provedores típicos:
+
+- **Firmográficos:** ZoomInfo, Apollo, Clay, Cnae.io
+- **Tecnográficos:** BuiltWith, Wappalyzer
+- **Sinais comportamentais:** Pocus, Common Room, Hightouch
+- **Contatos e e-mails:** Apollo, Hunter, Clay
+- **Sinais de intent:** Bombora, G2 Buyer Intent
+
+A escolha do provedor é menos crítica que a definição dos **gates de qualidade do enrichment**:
+
+1. **Cobertura mínima:** % de contas que retornam dado completo. &lt;70% indica fonte fraca para o seu mercado.
+2. **Latência:** quanto tempo entre conta criada e dado disponível. Se >24h, o vendedor toma decisão sem o dado e o ROI do enrichment cai.
+3. **Acurácia:** % de campos verificados manualmente que batem com a realidade. &lt;90% indica que o time vai aprender a desconfiar do enrichment — e o investimento vira ruído.
+4. **Refresh:** com qual frequência o dado é re-validado. Industry pode ser anual; decisor identificado precisa ser checado a cada quarter (saídas e mudanças).
+
+A frase âncora aqui: **enrichment ruim é pior que enrichment ausente**, porque o time toma decisão com confiança falsa em dado errado.
+
+## ICS — Ideal Customer Signals
+
+Há uma adição recente ao Pilar 1 que vale destacar: o conceito de **ICS (Ideal Customer Signals)**, complementar ao ICP tradicional.
+
+ICP responde "quem é o cliente ideal" — firmografia, tamanho, indústria, fit funcional. ICS responde **"quem está prestes a comprar agora"** — sinais comportamentais que indicam intenção.
+
+Exemplos de sinais ICS:
+
+- Mudança recente de liderança (CMO, CRO, Head de RevOps)
+- Aumento súbito de tráfego no site da empresa
+- Contratação ativa de SDRs/AEs (job postings)
+- Trocas de stack reveladas via tecnografia (saída de competidor, entrada de complementar)
+- Mudança de tier (rodada de captação anunciada, aquisição)
+- Engajamento com seu conteúdo proprietário (download de paper, presença em evento)
+
+Quando a operação combina ICP (estoque) com ICS (timing), a priorização de outbound deixa de ser "quais contas batem firmografia" e passa a ser "quais contas batem firmografia E têm sinais ativos no último trimestre". Conversão MQA → SQL pode dobrar com essa simples mudança de priorização.
+
+A operacionalização do ICS exige que os sinais relevantes sejam parte da Originação (sub-camada 3) e do Enrichment (sub-camada 5). Sem isso, ICS vira slide bonito que ninguém usa.
+
+## Gates de saída do Pilar 1
+
+A operação considera o Pilar 1 implementado quando:
+
+- **Nomenclatura:** 95%+ dos campos novos seguem o naming canônico. Picklists fechadas em todos os campos críticos. Validation rules ativas.
+- **Critérios:** Cada estágio M1-M8 tem checklist de saída documentada e auditada mensalmente. &lt;5% de avanços sem checklist completa.
+- **Originação:** Cada campo crítico tem owner declarado. Enrichment-at-source funcionando para 80%+ dos novos registros.
+- **Centralização:** Entity Model documentado. Matching rate >99% (duplicatas residuais &lt;1%). Semantic Layer com 10+ métricas canônicas em uso.
+- **Enriquecimento:** Cobertura >80%, latência &lt;24h, acurácia >90%, refresh por tipo de campo definido.
+
+Quando estes gates estão verdes, a operação está pronta para os Pilares 2-5 escalarem sobre dado confiável. Quando estão amarelos, qualquer escalonamento amplifica os defeitos do Pilar 1 — e o custo de retrabalho aumenta exponencialmente com volume.
+
+## Conexões com outros pilares
+
+- **Pilar 2 (Metodologia)** depende dos critérios objetivos (sub-camada 2) para que SPICED ou MEDDPICC tenham campos para medir.
+- **Pilar 3 (Processos)** depende da nomenclatura para que playbooks referenciem campos consistentes em todos os Handbooks.
+- **Pilar 4 (Stack)** é onde Nomenclatura, Critérios e Originação ganham enforcement via picklists, validation rules e workflows.
+- **Pilar 5 (Loop)** consome os dados centralizados (sub-camada 4) para alimentar MBR e TOC.
+
+Templates aplicáveis: T1 — Arquitetura de Dados (no Módulo 03 — Templates).
+
+<CalloutCertificacao chapter="pilar-1" />

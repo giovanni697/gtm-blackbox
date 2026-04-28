@@ -26,6 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env.local
 .env*.local
 
 # vercel
@@ -34,3 +35,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+
+# === SCIENT — internal research / progress (§1.13.3) ===
+# Pesquisa interna do agente — confidencial
+docs/00-research/
+
+# Arquivos de extração temporária dos docs-fonte
+tmp-extracted/
+*.extracted.md
+
+# Husky internals OK to commit, but lint-staged cache no
+.husky/_/

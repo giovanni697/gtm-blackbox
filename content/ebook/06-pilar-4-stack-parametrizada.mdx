@@ -1,0 +1,168 @@
+---
+title: 'Pilar 4 — Stack Parametrizada: enforcement das decisões'
+slug: '06-pilar-4-stack-parametrizada'
+order: 6
+estimatedReadingMinutes: 15
+lastUpdated: '2026-04-26'
+pillar: 'Pilar 4'
+status: 'published'
+---
+
+Decisão estratégica que não chega à ferramenta vira aspiração.
+
+Esta é a tese do Pilar 4. Por melhor que seja a metodologia (P2) e por mais bem documentados que estejam os processos (P3), se o CRM não está parametrizado para forçar a aplicação, a primeira semana corrida vai jogar tudo fora. Vendedor cria pipeline, gerente faz forecast pelo dashboard, executivo lê relatório consolidado — e ninguém percebe que cada um está olhando uma versão diferente do mesmo dado.
+
+Stack Parametrizada é o pilar onde **as decisões dos pilares anteriores ganham enforcement**. É onde foco vira picklist fechada, metodologia vira validation rule, e processo vira workflow automatizado.
+
+A escolha do CRM (HubSpot, Salesforce, Pipedrive, RD CRM, Zoho) é menos crítica do que a parametrização que você faz dele. Operação com Salesforce mal parametrizado vale menos que operação com HubSpot bem parametrizado. A maturidade da ferramenta vem da disciplina de quem a opera, não da marca.
+
+## O que parametrizar — checklist canônica
+
+Para cada operação, há sete áreas de parametrização que precisam estar declaradas e implementadas. Não tem ordem rígida — algumas dependem de outras —, mas todas precisam estar verdes para o pilar ser considerado em pé.
+
+### 1. Pipelines macro (separação por motion)
+
+Cada motion ativo tem **pipeline próprio no CRM**. New Business High-touch e New Business Low-touch são pipelines separados, com estágios diferentes, critérios diferentes, ciclos diferentes. Tentar operar dois motions no mesmo pipeline é o erro mais comum em mid-market — e o que mais distorce métrica.
+
+A regra: **um pipeline por (tipo de receita) × (motion principal)**.
+
+Tipos de receita típicos:
+
+- New Business (logo novo)
+- Expansion (cross-sell / upsell)
+- Renewal (renovação)
+- Churn Recovery (recuperação)
+
+Combinações típicas em ARPE:
+
+- New Business High-touch
+- New Business Low-touch
+- Expansion High-touch (account-based)
+- Renewal (geralmente um pipeline único, com sub-segmentação por health)
+
+### 2. Etapas do CRM seguindo M1-M8
+
+Cada pipeline tem etapas que correspondem aos estágios M1-M8 da metodologia. Os nomes podem variar por pipeline, mas a função é a mesma.
+
+Exemplo para New Business High-touch:
+
+| Etapa CRM   | M   | Critério de saída (resumido)        |
+| ----------- | --- | ----------------------------------- |
+| Account     | M1  | Está na LCA                         |
+| Engagement  | M2  | MQA — engajamento qualificado       |
+| Discovery   | M3  | SQL — dor + decisor + urgência      |
+| Validation  | M4a | SAL parcial — framework score >40%  |
+| Proposal    | M4b | SAL completo — proposta apresentada |
+| Negotiation | M4c | SAL avançado — termos discutidos    |
+| Closed Won  | M5  | Contrato — minuta assinada          |
+
+Note que M4 (SAL) costuma quebrar em sub-etapas em high-touch (Validation / Proposal / Negotiation) porque o ciclo é longo e cada sub-etapa tem critério próprio.
+
+### 3. Campos obrigatórios por etapa
+
+Para cada etapa, alguns campos são **obrigatórios para avançar**. Validation rules bloqueiam o avanço se algum campo crítico estiver vazio.
+
+Exemplo de campos obrigatórios em Discovery (M3):
+
+```
+Para sair de Discovery e entrar em Validation:
+- deal_dor_principal__text (preenchido, min 50 chars)
+- deal_decisor_economico__contact_id (não vazio)
+- deal_orcamento__band (selecionado da picklist)
+- deal_urgencia__months (preenchido, número)
+- deal_metric_baseline__brl (preenchido, valor)
+- deal_motion__primary (selecionado: high/mid/low)
+
+Se qualquer um vazio → erro ao mover deal.
+```
+
+Esse enforcement é que garante que o forecast funciona. Quando o time tenta atalhar campos críticos, o sistema bloqueia. O gerente recebe alerta em vez de descobrir o problema no fim do mês.
+
+### 4. Picklists fechadas para campos categóricos
+
+Toda categoria que entra em relatório agregado precisa ser picklist fechada — nunca campo livre. Por exemplo:
+
+- `account_industry__primary` (picklist com 12 valores fixos, alinhados com o ICP)
+- `deal_motion__primary` (no_touch / low_touch / mid_touch / high_touch / canal)
+- `deal_lost_reason__primary` (picklist com 8-12 motivos, alinhado com causa-raiz analítica)
+- `subscription_health__band` (verde / amarelo / vermelho)
+
+Campo livre ("outros — descrever") deve existir como exceção, não regra. A regra para incluir um valor novo na picklist é: precisar dele em mais de 5% dos casos. Senão, fica em "outros" mesmo.
+
+### 5. Workflows automatizados
+
+Workflows reduzem trabalho manual repetitivo e garantem que regras críticas são aplicadas mesmo quando o time esquece.
+
+Exemplos canônicos:
+
+- **Auto-advance MQA → SQL** quando todos os critérios estão preenchidos.
+- **Notificação ao decisor econômico identificado** após Discovery: e-mail automático personalizado.
+- **Tarefa para CSM** D-7 antes do TTFI alvo: "validar que cliente está no caminho do first impact".
+- **Alerta para Sales Manager** quando deal em SQL passa 14 dias sem atividade.
+- **Re-engajamento automático** de Account em estágio Engagement há 30+ dias.
+
+Workflow ruim cria ruído. Workflow bom é invisível — só aparece quando ação humana é genuinamente necessária.
+
+### 6. Dashboards canônicos
+
+Cada operação tem entre **5 e 8 dashboards canônicos** que toda liderança consulta. Mais que isso, ninguém consome. Menos que isso, falta visibilidade.
+
+Lista canônica recomendada:
+
+1. **Pipeline Coverage** — pipeline aberto vs meta (3-4x é benchmark saudável).
+2. **Velocity** — ciclo médio por estágio, comparado a benchmark.
+3. **Win Rate** — por modal, por persona, por origem.
+4. **Forecast** — projeção mensal vs realizado.
+5. **GTM-5** — métricas-chave em uma tela (CAC, LTV, GRR, NRR, Pipeline Creation Rate).
+6. **Health Score** — distribuição da base ativa.
+7. **Forecast por motion** — visão segmentada quando há multi-motion.
+8. **Capacity** — utilização vs target por função (SDR, AE, CSM).
+
+Dashboards são o ponto onde o Pilar 1 (dado) e o Pilar 5 (loop) se encontram. Dashboard sem dado confiável é teatro. Dashboard que ninguém consulta é desperdício.
+
+### 7. Integrações e Reverse ETL
+
+Em ARPE/ARE, o CRM raramente é a fonte única de verdade para tudo. Há ERP, plataforma de produto, ferramentas de marketing, billing, atendimento. Integrações garantem que a informação relevante flui entre eles.
+
+Padrões de integração:
+
+- **CDC (Change Data Capture)** entre CRM e Data Warehouse para análise.
+- **Reverse ETL** do Data Warehouse de volta ao CRM para enriquecimento (ex: Health Score calculado em ML, levado pro CRM como campo `subscription_health__score`).
+- **Event-driven** para gatilhos pontuais (assinatura criada → workflow CSM no CRM).
+- **API real-time** entre CRM e ERP para campos críticos (status financeiro, faturamento).
+
+Integração mal feita é causa #1 de duplicação de dado e frustração do time. Integração bem feita é invisível.
+
+## A pergunta de enforcement
+
+Quando alguém no time pergunta "por que o CRM não me deixa fazer X?", a resposta correta é uma de duas:
+
+1. **"Porque X não está dentro do foco declarado."** Se X não cabe no 1×1×1×1 da operação, a parametrização está fazendo o trabalho de enforcement do princípio 4. O time precisa entender que isso é feature, não bug.
+
+2. **"Porque X é uma decisão que precisa ser elevada."** Se X parece legítimo mas não cabe no foco atual, é um sinal de que pode ser hora de revisar o foco — em conversa estratégica, não em hack do CRM.
+
+A pior resposta possível é "tá, deixa eu remover essa restrição para você". Isso é onde o pilar quebra silenciosamente.
+
+## Gates de saída do Pilar 4
+
+A operação considera o Pilar 4 implementado quando:
+
+- **Pipelines macro** separados por (tipo de receita × motion). Mínimo 2-3 pipelines em ARMV, 4-6 em ARPE.
+- **Etapas M1-M8** mapeadas em cada pipeline, com critério de saída por etapa.
+- **Validation rules** ativas: 0 deals avançam sem campos obrigatórios.
+- **Picklists fechadas** em todos os campos categóricos críticos. &lt;5% de uso de "outros — descrever".
+- **Workflows críticos** rodando: auto-advance, notificações, alertas de stagnation.
+- **Dashboards canônicos** documentados, com 5-8 dashboards principais consumidos pela liderança em ritual semanal.
+- **Integrações** com ERP/produto/marketing tools auditadas, com SLA de freshness declarado.
+- **Setup de novo usuário** &lt;2 semanas para produtividade plena (sinal de que parametrização está clara o suficiente para onboarding rápido).
+
+## Conexões com outros pilares
+
+- **Pilar 1** define quais campos existir; o Pilar 4 define como o CRM os apresenta e enforça.
+- **Pilar 2** define a metodologia; o Pilar 4 a operacionaliza em campos e validation rules.
+- **Pilar 3** define playbooks; o Pilar 4 os apresenta como cards visíveis em cada estágio.
+- **Pilar 5** consome dashboards do Pilar 4 como input do MBR.
+
+Templates aplicáveis: T8 — Parametrização de Stack (no Módulo 03 — Templates).
+
+<CalloutCertificacao chapter="default" />
