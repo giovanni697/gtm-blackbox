@@ -99,11 +99,11 @@ export function Sidebar({ user }: { user: { nome: string | null; email: string |
             <p className="truncate font-sora text-3xs text-white/40">{user.email}</p>
           </div>
         </div>
-        <div className="relative mt-2 flex gap-1">
+        <div className="mt-2 flex flex-col gap-1">
           {feedbackOpen && (
-            <div className="absolute bottom-full left-0 mb-2 w-52 border border-white/10 bg-scient-dark-2 p-3 shadow-lg">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="font-sora text-3xs uppercase tracking-widest text-white/50">
+            <div className="border border-white/10 bg-scient-dark-2 px-3 py-2">
+              <div className="mb-1.5 flex items-center justify-between">
+                <span className="font-sora text-3xs uppercase tracking-widest text-white/40">
                   Envie feedback para
                 </span>
                 <button
@@ -114,25 +114,27 @@ export function Sidebar({ user }: { user: { nome: string | null; email: string |
                 </button>
               </div>
               <p className="font-sora text-2xs text-white">giovanni@scient.cc</p>
-              <p className="mt-1 font-sora text-2xs text-white">matheus@scient.cc</p>
+              <p className="mt-0.5 font-sora text-2xs text-white">matheus@scient.cc</p>
             </div>
           )}
-          <button
-            type="button"
-            onClick={() => setFeedbackOpen((v) => !v)}
-            className="flex flex-1 items-center gap-1.5 px-3 py-1.5 font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
-          >
-            <MessageSquare size={10} strokeWidth={1.5} />
-            Feedback
-          </button>
-          <form action="/auth/logout" method="POST" className="flex-1">
+          <div className="flex gap-1">
             <button
-              type="submit"
-              className="w-full px-3 py-1.5 text-left font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
+              type="button"
+              onClick={() => setFeedbackOpen((v) => !v)}
+              className="flex flex-1 items-center gap-1.5 px-3 py-1.5 font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
             >
-              Sair
+              <MessageSquare size={10} strokeWidth={1.5} />
+              Feedback
             </button>
-          </form>
+            <form action="/auth/logout" method="POST" className="flex-1">
+              <button
+                type="submit"
+                className="w-full px-3 py-1.5 text-left font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
+              >
+                Sair
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </aside>
