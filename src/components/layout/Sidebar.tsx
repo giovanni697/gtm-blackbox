@@ -98,7 +98,9 @@ export function Sidebar({ user }: { user: { nome: string | null; email: string |
         </div>
         <div className="mt-2 flex gap-1">
           <a
-            href="mailto:giovanni@scient.cc,matheus@scient.cc?subject=Feedback%20GTM%20BlackBox"
+            href="mailto:giovanni@scient.cc?cc=matheus@scient.cc&subject=Feedback%20GTM%20BlackBox"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex flex-1 items-center gap-1.5 px-3 py-1.5 font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
           >
             <MessageSquare size={10} strokeWidth={1.5} />
