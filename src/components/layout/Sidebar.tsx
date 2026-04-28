@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import {
   Home,
   BookOpen,
@@ -10,6 +11,7 @@ import {
   Calculator,
   ExternalLink,
   MessageSquare,
+  X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'
@@ -31,6 +33,7 @@ const NAV: NavItem[] = [
 
 export function Sidebar({ user }: { user: { nome: string | null; email: string | null } }) {
   const pathname = usePathname()
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
   const certUrl = process.env.NEXT_PUBLIC_CERTIFICATION_URL ?? 'http://gtme.scient.cc'
   const initial = (user.nome ?? user.email ?? '?').charAt(0).toUpperCase()
 
@@ -96,16 +99,32 @@ export function Sidebar({ user }: { user: { nome: string | null; email: string |
             <p className="truncate font-sora text-3xs text-white/40">{user.email}</p>
           </div>
         </div>
-        <div className="mt-2 flex gap-1">
-          <a
-            href="mailto:giovanni@scient.cc?cc=matheus@scient.cc&subject=Feedback%20GTM%20BlackBox"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="relative mt-2 flex gap-1">
+          {feedbackOpen && (
+            <div className="absolute bottom-full left-0 mb-2 w-52 border border-white/10 bg-scient-dark-2 p-3 shadow-lg">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-sora text-3xs uppercase tracking-widest text-white/50">
+                  Envie feedback para
+                </span>
+                <button
+                  onClick={() => setFeedbackOpen(false)}
+                  className="text-white/30 hover:text-white"
+                >
+                  <X size={10} />
+                </button>
+              </div>
+              <p className="font-sora text-2xs text-white">giovanni@scient.cc</p>
+              <p className="mt-1 font-sora text-2xs text-white">matheus@scient.cc</p>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={() => setFeedbackOpen((v) => !v)}
             className="flex flex-1 items-center gap-1.5 px-3 py-1.5 font-sora text-3xs uppercase tracking-widest text-white/50 transition-colors hover:text-white"
           >
             <MessageSquare size={10} strokeWidth={1.5} />
             Feedback
-          </a>
+          </button>
           <form action="/auth/logout" method="POST" className="flex-1">
             <button
               type="submit"

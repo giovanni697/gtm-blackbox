@@ -151,7 +151,7 @@ export default function LandingPage() {
           <p className="font-sora text-3xs text-scient-gray">
             Open-source · MIT License ·{' '}
             <a
-              href="https://github.com/scient-cc/gtm-blackbox"
+              href="https://github.com/giovanni697/gtm-blackbox"
               target="_blank"
               rel="noopener noreferrer"
               className="text-scient-primary underline"
