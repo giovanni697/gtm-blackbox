@@ -52,7 +52,7 @@ export const listTemplates = cache(async function listTemplates(): Promise<Templ
     const stat = await fs.stat(dirPath).catch(() => null)
     if (!stat?.isDirectory()) continue
 
-    const readmeRaw = await readMarkdownFile(path.join(dirPath, 'README.md'))
+    const readmeRaw = await readMarkdownFile(path.join(dirPath, 'meta.md'))
     if (!readmeRaw) continue
 
     const { data } = matter(readmeRaw)
@@ -72,7 +72,7 @@ export async function getTemplateBySlug(slug: string): Promise<TemplateDetail | 
   const stat = await fs.stat(dirPath).catch(() => null)
   if (!stat?.isDirectory()) return null
 
-  const readmeRaw = await readMarkdownFile(path.join(dirPath, 'README.md'))
+  const readmeRaw = await readMarkdownFile(path.join(dirPath, 'meta.md'))
   if (!readmeRaw) return null
 
   const readmeParsed = matter(readmeRaw)
