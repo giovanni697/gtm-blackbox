@@ -105,12 +105,12 @@ export default async function TemplateDetail({ params }: { params: { slug: strin
         <p className="mt-2 font-sora text-xs text-scient-gray">
           Copie o conteúdo desta página, ou clone o repositório em{' '}
           <a
-            href="https://github.com/scient-cc/gtm-blackbox"
+            href="https://github.com/giovanni697/gtm-blackbox"
             target="_blank"
             rel="noopener noreferrer"
             className="text-scient-primary underline"
           >
-            github.com/scient-cc/gtm-blackbox
+            github.com/giovanni697/gtm-blackbox
           </a>{' '}
           — os templates ficam em{' '}
           <code className="border border-scient-divider bg-scient-bg px-1 py-0.5 text-2xs">
