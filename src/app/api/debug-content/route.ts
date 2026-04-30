@@ -1,5 +1,6 @@
-import { readdir, stat } from 'node:fs/promises'
+import { readdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
+import matter from 'gray-matter'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,11 +25,31 @@ export async function GET() {
     }
   }
 
-  const [content, templates, ebook] = await Promise.all([
+  // Deep check: try reading README.md of first template and parsing frontmatter
+  async function deepTemplateCheck() {
+    const firstSlug = '01-arquitetura-de-dados'
+    const readmePath = join(templatesDir, firstSlug, 'README.md')
+    try {
+      const raw = await readFile(readmePath, 'utf-8')
+      const { data } = matter(raw)
+      return {
+        ok: true,
+        path: readmePath,
+        rawLength: raw.length,
+        parsedKeys: Object.keys(data),
+        parsedData: data,
+      }
+    } catch (e: unknown) {
+      return { ok: false, path: readmePath, error: String(e) }
+    }
+  }
+
+  const [content, templates, ebook, templateReadme] = await Promise.all([
     safeReaddir(contentDir),
     safeReaddir(templatesDir),
     safeReaddir(ebookDir),
+    deepTemplateCheck(),
   ])
 
-  return Response.json({ cwd, content, templates, ebook })
+  return Response.json({ cwd, content, templates, ebook, templateReadme })
 }
