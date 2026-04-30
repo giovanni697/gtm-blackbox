@@ -4,11 +4,9 @@ const nextConfig = {
   experimental: {
     typedRoutes: false,
   },
-  // Garante que content/ é incluído no bundle das serverless functions no Vercel
+  // Garante que content/ é incluído no bundle de TODAS as serverless functions no Vercel
   outputFileTracingIncludes: {
-    "/templates": ["./content/templates/**/*"],
-    "/ebook": ["./content/ebook/**/*"],
-    "/diagnostico": ["./content/diagnostico/**/*"],
+    "/**": ["./content/**/*"],
   },
 };
 

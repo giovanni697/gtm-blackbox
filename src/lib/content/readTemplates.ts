@@ -2,7 +2,7 @@ import 'server-only'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
-import { cache } from 'react'
+import { unstable_cache } from 'next/cache'
 import { z } from 'zod'
 
 const TemplateMetaSchema = z.object({
@@ -35,36 +35,44 @@ async function readMarkdownFile(filePath: string): Promise<string | null> {
   }
 }
 
-export const listTemplates = cache(async function listTemplates(): Promise<TemplateMeta[]> {
-  let dirs: string[]
-  try {
-    dirs = await fs.readdir(TEMPLATES_DIR)
-  } catch {
-    return []
-  }
-
-  const list: TemplateMeta[] = []
-  for (const dir of dirs) {
-    const dirPath = path.join(TEMPLATES_DIR, dir)
-    const stat = await fs.stat(dirPath).catch(() => null)
-    if (!stat?.isDirectory()) continue
-
-    const readmeRaw = await readMarkdownFile(path.join(dirPath, 'README.md'))
-    if (!readmeRaw) continue
-
-    const { data } = matter(readmeRaw)
-    const parsed = TemplateMetaSchema.safeParse({ ...data, slug: data.slug ?? dir })
-    if (!parsed.success) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error(`[readTemplates] frontmatter inválido em ${dir}:`, parsed.error.flatten())
-      }
-      continue
+export const listTemplates = unstable_cache(
+  async function listTemplates(): Promise<TemplateMeta[]> {
+    let dirs: string[]
+    try {
+      dirs = await fs.readdir(TEMPLATES_DIR)
+      console.log(
+        `[readTemplates] cwd=${process.cwd()} dir=${TEMPLATES_DIR} entries=${dirs.length}`,
+      )
+    } catch (e) {
+      console.error(
+        `[readTemplates] readdir failed: ${e} — cwd=${process.cwd()} dir=${TEMPLATES_DIR}`,
+      )
+      return []
     }
-    list.push(parsed.data)
-  }
 
-  return list.sort((a, b) => a.number.localeCompare(b.number))
-})
+    const list: TemplateMeta[] = []
+    for (const dir of dirs) {
+      const dirPath = path.join(TEMPLATES_DIR, dir)
+      const stat = await fs.stat(dirPath).catch(() => null)
+      if (!stat?.isDirectory()) continue
+
+      const readmeRaw = await readMarkdownFile(path.join(dirPath, 'README.md'))
+      if (!readmeRaw) continue
+
+      const { data } = matter(readmeRaw)
+      const parsed = TemplateMetaSchema.safeParse({ ...data, slug: data.slug ?? dir })
+      if (!parsed.success) {
+        console.error(`[readTemplates] frontmatter inválido em ${dir}:`, parsed.error.flatten())
+        continue
+      }
+      list.push(parsed.data)
+    }
+
+    return list.sort((a, b) => a.number.localeCompare(b.number))
+  },
+  ['list-templates'],
+  { revalidate: 3600 },
+)
 
 export async function getTemplateBySlug(slug: string): Promise<TemplateDetail | null> {
   const dirPath = path.join(TEMPLATES_DIR, slug)
