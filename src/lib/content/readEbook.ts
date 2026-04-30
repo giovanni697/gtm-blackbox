@@ -2,7 +2,7 @@ import 'server-only'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
-import { unstable_cache } from 'next/cache'
+import { cache } from 'react'
 import { z } from 'zod'
 
 const ChapterFrontmatterSchema = z.object({
@@ -40,35 +40,31 @@ async function readChapterFile(filename: string): Promise<Chapter | null> {
   return { ...fm.data, filename, content: parsed.content }
 }
 
-export const listChapters = unstable_cache(
-  async function listChapters(): Promise<ChapterSummary[]> {
-    let files: string[]
-    try {
-      files = await fs.readdir(EBOOK_DIR)
-    } catch {
-      return []
-    }
-    const mdxFiles = files.filter((f) => f.endsWith('.mdx'))
-    const chapters = await Promise.all(mdxFiles.map((f) => readChapterFile(f)))
-    return chapters
-      .filter((c): c is Chapter => c !== null && c.status === 'published')
-      .sort((a, b) => a.order - b.order)
-      .map(
-        (c): ChapterSummary => ({
-          filename: c.filename,
-          title: c.title,
-          slug: c.slug,
-          order: c.order,
-          estimatedReadingMinutes: c.estimatedReadingMinutes,
-          lastUpdated: c.lastUpdated,
-          pillar: c.pillar,
-          status: c.status,
-        }),
-      )
-  },
-  ['list-chapters'],
-  { revalidate: 3600 },
-)
+export const listChapters = cache(async function listChapters(): Promise<ChapterSummary[]> {
+  let files: string[]
+  try {
+    files = await fs.readdir(EBOOK_DIR)
+  } catch {
+    return []
+  }
+  const mdxFiles = files.filter((f) => f.endsWith('.mdx'))
+  const chapters = await Promise.all(mdxFiles.map((f) => readChapterFile(f)))
+  return chapters
+    .filter((c): c is Chapter => c !== null && c.status === 'published')
+    .sort((a, b) => a.order - b.order)
+    .map(
+      (c): ChapterSummary => ({
+        filename: c.filename,
+        title: c.title,
+        slug: c.slug,
+        order: c.order,
+        estimatedReadingMinutes: c.estimatedReadingMinutes,
+        lastUpdated: c.lastUpdated,
+        pillar: c.pillar,
+        status: c.status,
+      }),
+    )
+})
 
 export async function getChapterBySlug(slug: string): Promise<Chapter | null> {
   let files: string[]
