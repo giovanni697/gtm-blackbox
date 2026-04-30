@@ -2,8 +2,6 @@ import Link from 'next/link'
 import { ArrowRight, Clock } from 'lucide-react'
 import { listChapters } from '@/lib/content/readEbook'
 
-export const dynamic = 'force-static'
-
 export default async function EbookIndex() {
   const chapters = await listChapters()
 

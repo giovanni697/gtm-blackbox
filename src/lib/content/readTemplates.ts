@@ -2,6 +2,7 @@ import 'server-only'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { cache } from 'react'
 import { z } from 'zod'
 
 const TemplateMetaSchema = z.object({
@@ -34,7 +35,7 @@ async function readMarkdownFile(filePath: string): Promise<string | null> {
   }
 }
 
-export async function listTemplates(): Promise<TemplateMeta[]> {
+export const listTemplates = cache(async function listTemplates(): Promise<TemplateMeta[]> {
   let dirs: string[]
   try {
     dirs = await fs.readdir(TEMPLATES_DIR)
@@ -63,7 +64,7 @@ export async function listTemplates(): Promise<TemplateMeta[]> {
   }
 
   return list.sort((a, b) => a.number.localeCompare(b.number))
-}
+})
 
 export async function getTemplateBySlug(slug: string): Promise<TemplateDetail | null> {
   const dirPath = path.join(TEMPLATES_DIR, slug)

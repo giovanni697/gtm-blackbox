@@ -3,8 +3,6 @@ import { ArrowRight, Clock, Layers } from 'lucide-react'
 import { listTemplates } from '@/lib/content/readTemplates'
 import { PILARES } from '@/lib/diagnostico/types'
 
-export const dynamic = 'force-static'
-
 export default async function TemplatesIndex() {
   const templates = await listTemplates()
 

@@ -2,6 +2,7 @@ import 'server-only'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { cache } from 'react'
 import { z } from 'zod'
 
 const ChapterFrontmatterSchema = z.object({
@@ -41,7 +42,7 @@ async function readChapterFile(filename: string): Promise<Chapter | null> {
   return { ...fm.data, filename, content: parsed.content }
 }
 
-export async function listChapters(): Promise<ChapterSummary[]> {
+export const listChapters = cache(async function listChapters(): Promise<ChapterSummary[]> {
   let files: string[]
   try {
     files = await fs.readdir(EBOOK_DIR)
@@ -65,7 +66,7 @@ export async function listChapters(): Promise<ChapterSummary[]> {
         status: c.status,
       }),
     )
-}
+})
 
 export async function getChapterBySlug(slug: string): Promise<Chapter | null> {
   let files: string[]
