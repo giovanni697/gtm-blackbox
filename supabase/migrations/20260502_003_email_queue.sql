@@ -55,7 +55,7 @@ CREATE OR REPLACE FUNCTION public.user_did_forecast (uid UUID) RETURNS BOOLEAN L
 $$;
 
 CREATE OR REPLACE FUNCTION public.user_gargalo (uid UUID) RETURNS INT LANGUAGE SQL STABLE AS $$
-  SELECT gargalo FROM public.diagnosticos
+  SELECT gargalo_pilar FROM public.diagnosticos
   WHERE user_id = uid
   ORDER BY created_at DESC
   LIMIT 1;

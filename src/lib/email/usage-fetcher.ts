@@ -8,7 +8,7 @@ export async function fetchUserUsage(userId: string): Promise<UserUsage | null> 
     sb.from('profiles').select('id, nome').eq('id', userId).single(),
     sb
       .from('diagnosticos')
-      .select('gargalo')
+      .select('gargalo_pilar')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(1)
@@ -20,7 +20,7 @@ export async function fetchUserUsage(userId: string): Promise<UserUsage | null> 
   if (!profile || !authData?.user) return null
 
   const profileRow = profile as { id: string; nome: string }
-  const diagRow = diag as { gargalo: number } | null
+  const diagRow = diag as { gargalo_pilar: number } | null
 
   return {
     userId,
@@ -30,6 +30,6 @@ export async function fetchUserUsage(userId: string): Promise<UserUsage | null> 
     didForecast: !!forecast,
     openedTemplates: [],
     readChapters: 0,
-    gargalo: (diagRow?.gargalo ?? null) as UserUsage['gargalo'],
+    gargalo: (diagRow?.gargalo_pilar ?? null) as UserUsage['gargalo'],
   }
 }
