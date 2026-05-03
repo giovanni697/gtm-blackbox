@@ -71,15 +71,23 @@ export default function SignupPage() {
 
         <label className="block">
           <span className="font-sora text-3xs uppercase tracking-widest text-scient-gray">
-            E-mail
+            E-mail corporativo
           </span>
           <input
             type="email"
             name="email"
             required
             autoComplete="email"
+            placeholder="nome@suaempresa.com.br"
             className="mt-1 block w-full border border-scient-divider px-3 py-2 font-sora text-xs outline-none focus:border-scient-primary"
           />
+          <span className="mt-1 block font-sora text-3xs leading-relaxed text-scient-gray">
+            GTM BlackBox é uma plataforma profissional. Não aceitamos Gmail, Hotmail, Yahoo, etc.{' '}
+            <span className="text-scient-dark">
+              Use seu e-mail de trabalho — vai integrar com SSO, Slack workspace e calendário no
+              futuro.
+            </span>
+          </span>
         </label>
 
         <label className="block">

@@ -3,11 +3,18 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { isPersonalEmail } from '@/lib/auth/personal-email-domains'
 import { createClient } from '@/lib/supabase/server'
 
 const SignupSchema = z.object({
   nome: z.string().min(2, 'Nome muito curto').max(80, 'Nome muito longo'),
-  email: z.string().email('E-mail inválido'),
+  email: z
+    .string()
+    .email('E-mail inválido')
+    .refine(
+      (e) => !isPersonalEmail(e),
+      'Use seu e-mail corporativo (ex: nome@suaempresa.com.br). E-mails pessoais não são aceitos.',
+    ),
   password: z.string().min(8, 'Senha precisa ter pelo menos 8 caracteres'),
 })
 
