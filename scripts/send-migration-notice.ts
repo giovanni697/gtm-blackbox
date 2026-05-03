@@ -15,7 +15,7 @@
  *   npx tsx scripts/send-migration-notice.ts --send          # disparo real
  */
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -128,7 +128,7 @@ interface User {
   nome: string | null
 }
 
-async function listPersonalEmailUsers(supa: ReturnType<typeof createClient>): Promise<User[]> {
+async function listPersonalEmailUsers(supa: SupabaseClient): Promise<User[]> {
   const { data: authData, error } = await supa.auth.admin.listUsers({ perPage: 1000 })
   if (error) throw error
 
@@ -141,7 +141,8 @@ async function listPersonalEmailUsers(supa: ReturnType<typeof createClient>): Pr
       .select('nome')
       .eq('id', u.id)
       .maybeSingle()
-    users.push({ id: u.id, email: u.email, nome: (profile?.nome as string | undefined) ?? null })
+    const profileRow = profile as { nome?: string } | null
+    users.push({ id: u.id, email: u.email, nome: profileRow?.nome ?? null })
   }
   return users
 }
