@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { MobileNav } from '@/components/layout/MobileNav'
+import { SidebarProvider } from '@/components/layout/SidebarProvider'
 import { MigrationBanner } from '@/components/auth/MigrationBanner'
 import { getMigrationStatus } from '@/lib/auth/email-migration'
 
@@ -31,11 +32,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen flex-col bg-scient-bg">
       {migration.needsMigration ? <MigrationBanner status={migration} /> : null}
-      <div className="flex flex-1 flex-col md:flex-row">
-        <Sidebar user={userMeta} />
-        <MobileNav user={userMeta} />
-        <main className="min-w-0 flex-1">{children}</main>
-      </div>
+      <SidebarProvider>
+        <div className="flex flex-1 flex-col md:flex-row">
+          <Sidebar user={userMeta} />
+          <MobileNav user={userMeta} />
+          <main className="min-w-0 flex-1">{children}</main>
+        </div>
+      </SidebarProvider>
     </div>
   )
 }
