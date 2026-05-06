@@ -3,8 +3,6 @@ import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 interface ManualEmail {
   id: string
   tracking_id: string
@@ -15,6 +13,7 @@ interface ManualEmail {
 }
 
 export async function POST() {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const sb = createClient()
   const {
     data: { user },

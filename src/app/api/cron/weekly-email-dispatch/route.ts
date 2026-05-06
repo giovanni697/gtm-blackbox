@@ -20,8 +20,6 @@ import { buildWeeklyTemplate } from '@/lib/weekly-email/templates'
 import { buildTrackedEmail } from '@/lib/manual-email/renderer'
 import type { ProfileRow, DiagnosticoRow, WizardRow } from '@/lib/weekly-email/segments'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 // ISO week label e.g. "weekly-2026-W19"
 function isoWeekLabel(): string {
   const now = new Date()
@@ -33,6 +31,7 @@ function isoWeekLabel(): string {
 }
 
 export async function GET(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
