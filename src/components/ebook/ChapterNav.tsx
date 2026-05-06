@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { BookOpen, ChevronLeft, ChevronRight, Search, X } from 'lucide-react'
 import clsx from 'clsx'
 import type { ChapterSummary } from '@/lib/content/readEbook'
 
@@ -13,11 +13,18 @@ export function ChapterNav({ chapters }: { chapters: ChapterSummary[] }) {
   const pathname = usePathname()
   const activeSlug = pathname.startsWith('/ebook/') ? pathname.replace('/ebook/', '') : null
   const [visible, setVisible] = useState(true)
+  const [query, setQuery] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored === 'false') setVisible(false)
   }, [])
+
+  // limpa busca ao navegar para outro capítulo
+  useEffect(() => {
+    setQuery('')
+  }, [pathname])
 
   const hide = () => {
     setVisible(false)
@@ -28,6 +35,10 @@ export function ChapterNav({ chapters }: { chapters: ChapterSummary[] }) {
     setVisible(true)
     localStorage.setItem(STORAGE_KEY, 'true')
   }
+
+  const filtered = query.trim()
+    ? chapters.filter((c) => c.title.toLowerCase().includes(query.trim().toLowerCase()))
+    : chapters
 
   return (
     <>
@@ -85,9 +96,42 @@ export function ChapterNav({ chapters }: { chapters: ChapterSummary[] }) {
           </button>
         </div>
 
+        {/* ── Campo de busca ───────────────────────── */}
+        <div className="relative mt-4">
+          <Search
+            size={12}
+            strokeWidth={1.5}
+            className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-scient-gray"
+          />
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar capítulo…"
+            className={clsx(
+              'w-full border border-scient-divider bg-scient-bg py-1.5 pl-7 pr-7',
+              'font-sora text-2xs text-scient-dark placeholder:text-scient-gray',
+              'outline-none transition-colors focus:border-scient-primary',
+            )}
+          />
+          {query && (
+            <button
+              onClick={() => {
+                setQuery('')
+                inputRef.current?.focus()
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-scient-gray hover:text-scient-dark"
+              title="Limpar busca"
+            >
+              <X size={11} strokeWidth={1.5} />
+            </button>
+          )}
+        </div>
+
         {/* Lista */}
-        <ol className="mt-6 flex flex-col gap-1">
-          {chapters.map((chapter) => {
+        <ol className="mt-3 flex flex-col gap-1">
+          {filtered.map((chapter) => {
             const active = activeSlug === chapter.slug
             return (
               <li key={chapter.slug}>
@@ -110,11 +154,17 @@ export function ChapterNav({ chapters }: { chapters: ChapterSummary[] }) {
           })}
         </ol>
 
-        {chapters.length === 0 ? (
+        {/* Estados vazios */}
+        {chapters.length === 0 && (
           <p className="mt-6 font-sora text-2xs italic text-scient-gray">
             Nenhum capítulo publicado ainda.
           </p>
-        ) : null}
+        )}
+        {chapters.length > 0 && filtered.length === 0 && (
+          <p className="mt-4 font-sora text-2xs italic text-scient-gray">
+            Nenhum capítulo encontrado para &ldquo;{query}&rdquo;.
+          </p>
+        )}
       </nav>
     </>
   )
