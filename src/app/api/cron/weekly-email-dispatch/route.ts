@@ -12,6 +12,8 @@
  * Deduplication: skips users with a sent email in the last 6 days.
  * Fatigue guard: skips users with 4+ sent emails and zero opens/clicks.
  */
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { Resend } from 'resend'
