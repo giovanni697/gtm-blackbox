@@ -39,7 +39,8 @@ export async function POST() {
   const results = await Promise.allSettled(
     rows.map(async (row) => {
       const { error: sendError } = await resend.emails.send({
-        from: 'Giovanni Salvador <giovanni@scient.cc>',
+        from: 'Giovanni Salvador <giovanni@mail.scient.cc>',
+        replyTo: 'giovanni@scient.cc',
         to: row.to_email,
         subject: row.subject,
         html: row.body_html,

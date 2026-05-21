@@ -160,7 +160,8 @@ export async function GET(req: NextRequest) {
 
     // send via Resend
     const { error: sendError } = await resend.emails.send({
-      from: 'Giovanni Salvador <giovanni@scient.cc>',
+      from: 'Giovanni Salvador <giovanni@mail.scient.cc>',
+      replyTo: 'giovanni@scient.cc',
       to: toEmail,
       subject: template.subject,
       html: bodyHtml,
