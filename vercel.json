@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/email-dispatcher",
-      "schedule": "0 * * * *"
+      "schedule": "0 11 * * *"
     },
     {
       "path": "/api/cron/manual-email-dispatch",
