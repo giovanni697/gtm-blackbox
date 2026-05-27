@@ -7,19 +7,20 @@ export default async function DiagnosticoGateway() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('nome, empresa, faturamento_atual, estagio, diagnostico_concluido')
-    .eq('id', user!.id)
-    .single()
-
-  const { data: ultimoDiag } = await supabase
-    .from('diagnosticos')
-    .select('id, percentual_maturidade, gargalo_pilar, created_at')
-    .eq('user_id', user!.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+  const [{ data: profile }, { data: ultimoDiag }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('nome, empresa, faturamento_atual, estagio, diagnostico_concluido')
+      .eq('id', user!.id)
+      .single(),
+    supabase
+      .from('diagnosticos')
+      .select('id, percentual_maturidade, gargalo_pilar, created_at')
+      .eq('user_id', user!.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ])
 
   const onboardingFeito = !!(profile?.empresa && profile?.faturamento_atual)
   const diagFeito = !!ultimoDiag

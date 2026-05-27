@@ -67,6 +67,18 @@ export const listTemplates = cache(async function listTemplates(): Promise<Templ
   return list.sort((a, b) => a.number.localeCompare(b.number))
 })
 
+export async function getTemplateNeighbors(slug: string): Promise<{
+  prev: TemplateMeta | null
+  next: TemplateMeta | null
+}> {
+  const all = await listTemplates()
+  const idx = all.findIndex((t) => t.slug === slug)
+  return {
+    prev: idx > 0 ? all[idx - 1] : null,
+    next: idx < all.length - 1 ? all[idx + 1] : null,
+  }
+}
+
 export async function getTemplateBySlug(slug: string): Promise<TemplateDetail | null> {
   const dirPath = path.join(TEMPLATES_DIR, slug)
   const stat = await fs.stat(dirPath).catch(() => null)

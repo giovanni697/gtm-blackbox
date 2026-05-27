@@ -35,8 +35,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <SidebarProvider>
         <div className="flex flex-1 flex-col md:flex-row">
           <Sidebar user={userMeta} />
-          <MobileNav user={userMeta} />
-          <main className="min-w-0 flex-1">{children}</main>
+          <main className="min-w-0 flex-1 pb-16 md:pb-0">{children}</main>
+          <MobileNav />
         </div>
       </SidebarProvider>
     </div>

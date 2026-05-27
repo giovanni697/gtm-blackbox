@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, BookOpen, Clock, Download } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, Clock, Download } from 'lucide-react'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { mdxComponents } from '@/components/ebook/MdxComponents'
 
 const mdxOptions = { mdxOptions: { remarkPlugins: [remarkGfm] } }
-import { getTemplateBySlug, listTemplates } from '@/lib/content/readTemplates'
+import { getTemplateBySlug, getTemplateNeighbors, listTemplates } from '@/lib/content/readTemplates'
 import { PILARES } from '@/lib/diagnostico/types'
 
 export async function generateStaticParams() {
@@ -24,7 +24,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function TemplateDetail({ params }: { params: { slug: string } }) {
-  const t = await getTemplateBySlug(params.slug)
+  const [t, { prev, next }] = await Promise.all([
+    getTemplateBySlug(params.slug),
+    getTemplateNeighbors(params.slug),
+  ])
   if (!t) notFound()
 
   const pilar = PILARES.find((p) => p.numero === t.pilar)
@@ -98,7 +101,40 @@ export default async function TemplateDetail({ params }: { params: { slug: strin
         </div>
       </section>
 
-      <footer className="mt-20 border-t border-scient-divider pt-10">
+      <footer className="mt-16 border-t border-scient-divider pt-10">
+        <div className="grid gap-3 md:grid-cols-2">
+          {prev ? (
+            <Link
+              href={`/templates/${prev.slug}`}
+              className="group block border border-scient-divider bg-white p-5 transition-colors hover:border-scient-primary"
+            >
+              <p className="flex items-center gap-2 font-lexend text-3xs uppercase tracking-widest text-scient-gray">
+                <ArrowLeft size={10} strokeWidth={1.5} /> Anterior
+              </p>
+              <p className="mt-2 font-sora text-sm text-scient-dark group-hover:text-scient-primary">
+                {prev.number} · {prev.title.replace(/^Template\s+T\d+\s*—\s*/, '')}
+              </p>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <Link
+              href={`/templates/${next.slug}`}
+              className="group block border border-scient-divider bg-white p-5 text-right transition-colors hover:border-scient-primary"
+            >
+              <p className="flex items-center justify-end gap-2 font-lexend text-3xs uppercase tracking-widest text-scient-gray">
+                Próximo <ArrowRight size={10} strokeWidth={1.5} />
+              </p>
+              <p className="mt-2 font-sora text-sm text-scient-dark group-hover:text-scient-primary">
+                {next.number} · {next.title.replace(/^Template\s+T\d+\s*—\s*/, '')}
+              </p>
+            </Link>
+          ) : null}
+        </div>
+      </footer>
+
+      <footer className="mt-10 border-t border-scient-divider pt-10">
         <p className="font-lexend text-3xs uppercase tracking-widest text-scient-gray">
           Quer baixar este template?
         </p>
