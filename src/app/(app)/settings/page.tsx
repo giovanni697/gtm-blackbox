@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { NewKeyForm } from './NewKeyForm'
-import { revokeApiKey } from './actions'
-import { Key, Trash2, Terminal } from 'lucide-react'
+import { RevokeKeyButton } from './RevokeKeyButton'
+import { Key, Terminal } from 'lucide-react'
 
 export const metadata = {
   title: 'Settings — GTM BlackBox',
@@ -99,20 +99,7 @@ export default async function SettingsPage() {
                       {formatDate(k.last_used_at)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <form
-                        action={async () => {
-                          'use server'
-                          await revokeApiKey(k.id)
-                        }}
-                      >
-                        <button
-                          type="submit"
-                          title="Revogar chave"
-                          className="flex h-7 w-7 items-center justify-center text-gray-300 transition-colors hover:text-red-500"
-                        >
-                          <Trash2 size={13} strokeWidth={1.5} />
-                        </button>
-                      </form>
+                      <RevokeKeyButton keyId={k.id} keyPrefix={k.key_prefix} keyName={k.name} />
                     </td>
                   </tr>
                 ))}

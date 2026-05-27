@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { createApiKey } from './actions'
-import { Copy, Check, Plus } from 'lucide-react'
+import { Copy, Check, Plus, Eye, EyeOff } from 'lucide-react'
 
 export function NewKeyForm() {
   const [name, setName] = useState('')
@@ -10,6 +10,7 @@ export function NewKeyForm() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [masked, setMasked] = useState(true)
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -26,6 +27,7 @@ export function NewKeyForm() {
       setError(result.error)
     } else {
       setPlainKey(result.plain)
+      setMasked(true)
       setName('')
     }
   }
@@ -69,9 +71,24 @@ export function NewKeyForm() {
           </p>
           <div className="flex items-center gap-2">
             <code className="min-w-0 flex-1 break-all rounded bg-white px-3 py-2 font-mono text-xs text-gray-800 ring-1 ring-amber-200">
-              {plainKey}
+              {masked
+                ? plainKey.slice(0, 5) + '•'.repeat(Math.max(0, plainKey.length - 5))
+                : plainKey}
             </code>
             <button
+              type="button"
+              onClick={() => setMasked((v) => !v)}
+              className="flex h-8 w-8 shrink-0 items-center justify-center border border-amber-300 bg-white text-amber-700 transition-colors hover:bg-amber-100"
+              title={masked ? 'Mostrar chave' : 'Ocultar chave'}
+            >
+              {masked ? (
+                <Eye size={14} strokeWidth={1.5} />
+              ) : (
+                <EyeOff size={14} strokeWidth={1.5} />
+              )}
+            </button>
+            <button
+              type="button"
               onClick={handleCopy}
               className="flex h-8 w-8 shrink-0 items-center justify-center border border-amber-300 bg-white text-amber-700 transition-colors hover:bg-amber-100"
               title="Copiar chave"
