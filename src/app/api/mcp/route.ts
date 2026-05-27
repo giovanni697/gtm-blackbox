@@ -23,9 +23,9 @@ P4 — Stack Parametrizada: CRM, pipelines, validation rules, integrações
 P5 — Loop de Melhoria Contínua: MBRs, QBRs, retrospectivas, métricas ARMV/ARPE/ARE
 
 ESTÁGIOS DE MATURIDADE (Teoria das Restrições):
-ARMV — Aquisição e Retenção do Mercado-Alvo Viável (base)
-ARPE — Aquisição e Retenção de Padrão Escalável
-ARE — Aquisição e Retenção Expansível
+ARMV — Área de Receita Mínima Viável (fundacional, tipicamente até R$20M ARR)
+ARPE — Área de Receita Pronta para Escalar (máquina estabelecida, multi-motion controlado)
+ARE  — Área de Receita Escalável (AI-Native, excelência operacional, expansão global)
 
 NÍVEIS DE MATURIDADE POR PILAR: 0 (inexistente) → 1 (básico) → 2 (funcional) → 3 (avançado)
 
