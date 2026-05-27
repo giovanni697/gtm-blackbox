@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, BookOpen, Compass, Layers, Calculator } from 'lucide-react'
+import { Home, BookOpen, Compass, Layers, Calculator, Settings } from 'lucide-react'
 import clsx from 'clsx'
 
 const NAV = [
@@ -12,6 +12,7 @@ const NAV = [
   { href: '/diagnostico', label: 'Diagnóstico', icon: Compass },
   { href: '/templates', label: 'Templates', icon: Layers },
   { href: '/forecast', label: 'Forecast', icon: Calculator },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ]
 
 export function MobileNav() {

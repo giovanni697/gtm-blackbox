@@ -9,6 +9,7 @@ import {
   Compass,
   Layers,
   Calculator,
+  Settings,
   ExternalLink,
   MessageSquare,
   X,
@@ -33,6 +34,7 @@ const NAV: NavItem[] = [
   { href: '/diagnostico', label: 'Diagnóstico', icon: Compass, matchPrefix: true },
   { href: '/templates', label: 'Templates', icon: Layers, matchPrefix: true },
   { href: '/forecast', label: 'Forecast', icon: Calculator, matchPrefix: true },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ]
 
 export function Sidebar({ user }: { user: { nome: string | null; email: string | null } }) {
