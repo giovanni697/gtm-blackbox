@@ -2,6 +2,9 @@ import Link from 'next/link'
 import { ArrowRight, Clock } from 'lucide-react'
 import { listChapters } from '@/lib/content/readEbook'
 
+// Conteúdo MDX estático — revalida 1x/hora sem bater no filesystem a cada request
+export const revalidate = 3600
+
 export default async function EbookIndex() {
   const chapters = await listChapters()
 

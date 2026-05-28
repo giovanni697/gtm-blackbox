@@ -3,6 +3,9 @@ import { ArrowRight, Clock, Layers } from 'lucide-react'
 import { listTemplates } from '@/lib/content/readTemplates'
 import { PILARES } from '@/lib/diagnostico/types'
 
+// Catálogo de templates é estático — revalida 1x/hora
+export const revalidate = 3600
+
 export default async function TemplatesIndex() {
   const templates = await listTemplates()
 

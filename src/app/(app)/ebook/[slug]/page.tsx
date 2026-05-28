@@ -4,6 +4,9 @@ import { ArrowLeft, ArrowRight, Clock } from 'lucide-react'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { ProgressBar } from '@/components/ebook/ProgressBar'
+
+// Capítulos MDX são estáticos — revalida 1x/hora
+export const revalidate = 3600
 import { mdxComponents } from '@/components/ebook/MdxComponents'
 import { getChapterBySlug, getChapterNeighbors, listChapters } from '@/lib/content/readEbook'
 

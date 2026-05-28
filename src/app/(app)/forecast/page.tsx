@@ -7,19 +7,22 @@ export default async function ForecastGateway() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('empresa, faturamento_atual, forecast_concluido')
-    .eq('id', user!.id)
-    .single()
 
-  const { data: ultima } = await supabase
-    .from('forecast_sessions')
-    .select('id, completed_at, hiring_plan')
-    .eq('user_id', user!.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+  // Queries independentes — rodam em paralelo
+  const [{ data: profile }, { data: ultima }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('empresa, faturamento_atual, forecast_concluido')
+      .eq('id', user!.id)
+      .single(),
+    supabase
+      .from('forecast_sessions')
+      .select('id, completed_at, hiring_plan')
+      .eq('user_id', user!.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ])
 
   const concluido = !!ultima?.completed_at
   const viavel = (ultima?.hiring_plan as { viavel?: boolean } | null)?.viavel

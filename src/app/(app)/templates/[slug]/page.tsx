@@ -5,6 +5,9 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { mdxComponents } from '@/components/ebook/MdxComponents'
 
+// Templates são conteúdo MDX estático — revalida 1x/hora
+export const revalidate = 3600
+
 const mdxOptions = { mdxOptions: { remarkPlugins: [remarkGfm] } }
 import { getTemplateBySlug, getTemplateNeighbors, listTemplates } from '@/lib/content/readTemplates'
 import { PILARES } from '@/lib/diagnostico/types'

@@ -29,7 +29,11 @@ export async function GET(request: Request) {
     .order('scheduled_for', { ascending: true })
     .limit(50)
 
-  if (error) return Response.json({ error: error.message }, { status: 500 })
+  if (error) {
+    // Não expor detalhes internos do Supabase em produção
+    console.error('[email-dispatcher] queue fetch error:', error.message)
+    return Response.json({ error: 'Failed to fetch email queue.' }, { status: 500 })
+  }
 
   const results: { id: number; status: string; error?: string }[] = []
 
