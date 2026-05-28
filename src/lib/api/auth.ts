@@ -1,5 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/service'
-import { createHash } from 'crypto'
+import { createHash, timingSafeEqual } from 'crypto'
+import { checkRateLimit } from './rate-limit'
 
 export function hashApiKey(key: string): string {
   return createHash('sha256').update(key).digest('hex')
@@ -18,21 +19,48 @@ export function generateApiKey(): { plain: string; hash: string; prefix: string 
   return { plain, hash, prefix }
 }
 
-export async function validateApiKey(key: string): Promise<{ userId: string } | null> {
-  if (!key || !key.startsWith('gtmb_')) return null
-  const hash = hashApiKey(key)
+/** Compara dois hashes SHA-256 em tempo constante para evitar timing attacks. */
+function safeCompareHash(a: string, b: string): boolean {
+  try {
+    return timingSafeEqual(Buffer.from(a, 'hex'), Buffer.from(b, 'hex'))
+  } catch {
+    return false
+  }
+}
+
+/** Resultado discriminado para distinguir 401 (chave inválida) de 429 (rate limit) */
+export type ApiKeyResult =
+  | { status: 'ok'; userId: string; headers: Record<string, string> }
+  | { status: 'rate_limited'; headers: Record<string, string> }
+  | { status: 'unauthorized' }
+
+export async function validateApiKey(key: string): Promise<ApiKeyResult> {
+  if (!key || !key.startsWith('gtmb_')) return { status: 'unauthorized' }
+
+  const incomingHash = hashApiKey(key)
   const supabase = createServiceClient()
+
   const { data } = await supabase
     .from('api_keys')
-    .select('user_id, revoked_at')
-    .eq('key_hash', hash)
+    .select('user_id, key_hash, revoked_at')
+    .eq('key_hash', incomingHash)
     .single()
-  if (!data || data.revoked_at) return null
+
+  if (!data || data.revoked_at) return { status: 'unauthorized' }
+
+  // Comparação em tempo constante (defesa contra timing attack via DB)
+  if (!safeCompareHash(incomingHash, data.key_hash as string)) return { status: 'unauthorized' }
+
+  // Rate limit por API key (60 req/min — fail-open se Upstash não estiver configurado)
+  const rl = await checkRateLimit('api', incomingHash)
+  if (!rl.allowed) return { status: 'rate_limited', headers: rl.headers }
+
   // Update last_used_at (fire and forget)
   supabase
     .from('api_keys')
     .update({ last_used_at: new Date().toISOString() })
-    .eq('key_hash', hash)
+    .eq('key_hash', incomingHash)
     .then(() => {})
-  return { userId: data.user_id }
+
+  return { status: 'ok', userId: data.user_id as string, headers: rl.headers }
 }

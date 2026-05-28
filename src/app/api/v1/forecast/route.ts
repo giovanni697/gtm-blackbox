@@ -54,8 +54,14 @@ const ForecastInputSchema = z.object({
 export async function POST(req: NextRequest) {
   const key = req.headers.get('x-gtm-key') ?? ''
   const auth = await validateApiKey(key)
-  if (!auth) {
+  if (auth.status === 'unauthorized') {
     return NextResponse.json({ error: 'Unauthorized. Provide X-GTM-Key header.' }, { status: 401 })
+  }
+  if (auth.status === 'rate_limited') {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. Try again in 1 minute.' },
+      { status: 429, headers: auth.headers },
+    )
   }
 
   let body: unknown
