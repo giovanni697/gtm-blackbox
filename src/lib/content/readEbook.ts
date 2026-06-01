@@ -4,6 +4,7 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import { cache } from 'react'
 import { z } from 'zod'
+import { getContentOverride } from './getContentOverride'
 
 const ChapterFrontmatterSchema = z.object({
   title: z.string(),
@@ -76,7 +77,26 @@ export async function getChapterBySlug(slug: string): Promise<Chapter | null> {
   for (const filename of files) {
     if (!filename.endsWith('.mdx')) continue
     const chapter = await readChapterFile(filename)
-    if (chapter && chapter.slug === slug) return chapter
+    if (!chapter || chapter.slug !== slug) continue
+    // Verificar override do admin — substitui o body sem tocar no frontmatter
+    const override = await getContentOverride('ebook', slug)
+    return override !== null ? { ...chapter, content: override } : chapter
+  }
+  return null
+}
+
+/** Lê o body ORIGINAL do filesystem, sem aplicar overrides. Usado pelo admin editor. */
+export async function getChapterOriginalBody(slug: string): Promise<string | null> {
+  let files: string[]
+  try {
+    files = await fs.readdir(EBOOK_DIR)
+  } catch {
+    return null
+  }
+  for (const filename of files) {
+    if (!filename.endsWith('.mdx')) continue
+    const chapter = await readChapterFile(filename)
+    if (chapter && chapter.slug === slug) return chapter.content
   }
   return null
 }
