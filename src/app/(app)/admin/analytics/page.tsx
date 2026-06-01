@@ -165,6 +165,12 @@ export default async function AnalyticsPage() {
       <p className="text-scient-muted mt-1 font-sora text-sm">
         Dados ao vivo do Supabase — atualiza a cada request
       </p>
+      <a
+        href="/admin/command-center"
+        className="mt-3 inline-block font-sora text-xs text-[#0030E8] hover:underline"
+      >
+        → Ver Command Center completo (emails + API keys + consumo)
+      </a>
 
       {/* ── KPIs ──────────────────────────────────────────────────────────────── */}
       <section className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
