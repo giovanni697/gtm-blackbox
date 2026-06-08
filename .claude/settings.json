@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 15,
+            "statusMessage": "Verificando branch de trabalho...",
+            "command": "REPO=/Users/giovannisalvador/Desktop/GTMBLackBox/gtm-blackbox; BRANCH=$(git -C \"$REPO\" branch --show-current 2>/dev/null); if [ \"$BRANCH\" = \"main\" ]; then DATE=$(date +%Y-%m-%d); NEW=\"feat/$DATE\"; git -C \"$REPO\" checkout -b \"$NEW\" 2>/dev/null || git -C \"$REPO\" checkout \"$NEW\" 2>/dev/null; echo \"{\\\"systemMessage\\\":\\\"🌿 Branch de trabalho: $NEW (checkout automático de main)\\\",\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"SessionStart\\\",\\\"additionalContext\\\":\\\"REGRA ATIVA: estava no branch main. Fiz checkout automático para '$NEW'. NUNCA commitar diretamente em main. Todo trabalho vai para este branch. Ao final da sessão criar PR: gh pr create --base main.\\\"}}\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
