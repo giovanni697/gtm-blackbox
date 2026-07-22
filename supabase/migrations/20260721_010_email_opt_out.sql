@@ -15,16 +15,18 @@ CREATE INDEX IF NOT EXISTS profiles_opted_out_idx
 -- 2. Cancela a fila de drip
 -- 3. Marca o perfil como opted_out para não receber e-mails futuros
 
--- Rodar no SQL Editor do Supabase Dashboard:
+-- Para remover um usuário manualmente, rodar no SQL Editor do Supabase Dashboard:
+-- (substituir '<email>' pelo endereço desejado)
+--
 -- UPDATE public.email_queue eq
 -- SET status = 'cancelled'
 -- FROM auth.users u
--- WHERE u.email = 'miguel.vieira@v4company.com'
+-- WHERE u.email = '<email>'
 --   AND eq.user_id = u.id
 --   AND eq.status = 'queued';
 --
 -- UPDATE public.profiles p
 -- SET email_opted_out = TRUE
 -- FROM auth.users u
--- WHERE u.email = 'miguel.vieira@v4company.com'
+-- WHERE u.email = '<email>'
 --   AND p.id = u.id;
