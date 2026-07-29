@@ -50,10 +50,11 @@ export async function GET(request: Request) {
 
       const decision = decideEmail(email.email_type, usage)
 
-      const rendered =
-        email.email_type === 'personal_giovanni'
-          ? renderGiovanniEmail(decision)
-          : await renderScientEmail(email.email_type, decision)
+      const isPlainText =
+        email.email_type === 'personal_giovanni' || email.email_type === 'cad_du18_giovanni'
+      const rendered = isPlainText
+        ? renderGiovanniEmail(decision)
+        : await renderScientEmail(email.email_type, decision)
 
       if (dryRun) {
         await sb
