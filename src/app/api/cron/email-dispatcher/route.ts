@@ -15,6 +15,10 @@ export async function GET(request: Request) {
     return new Response('Unauthorized', { status: 401 })
   }
 
+  if (process.env.EMAIL_SENDING_PAUSED === 'true') {
+    return Response.json({ paused: true, processed: 0 })
+  }
+
   const sb = createServiceClient()
   const resend = new Resend(process.env.RESEND_API_KEY!)
   const dryRun = process.env.DRIP_DRY_RUN === 'true'
