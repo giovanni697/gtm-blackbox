@@ -22,6 +22,8 @@ import { buildWeeklyTemplate } from '@/lib/weekly-email/templates'
 import { buildTrackedEmail } from '@/lib/manual-email/renderer'
 import type { ProfileRow, DiagnosticoRow, WizardRow } from '@/lib/weekly-email/segments'
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://gtm.scient.cc'
+
 // ISO week label e.g. "weekly-2026-W19"
 function isoWeekLabel(): string {
   const now = new Date()
@@ -50,7 +52,7 @@ export async function GET(req: NextRequest) {
     { data: recentlySent },
     { data: fatiguedUsers },
   ] = await Promise.all([
-    sb.from('profiles').select('*'),
+    sb.from('profiles').select('*').eq('email_opted_out', false),
 
     // latest diagnostic per user (most recent)
     sb
@@ -158,6 +160,8 @@ export async function GET(req: NextRequest) {
     // update with real email
     await sb.from('manual_emails').update({ to_email: toEmail }).eq('tracking_id', trackingId)
 
+    const unsubUrl = `${BASE_URL}/email-preferences`
+
     // send via Resend
     const { error: sendError } = await resend.emails.send({
       from: 'Giovanni Salvador <giovanni@mail.scient.cc>',
@@ -165,7 +169,11 @@ export async function GET(req: NextRequest) {
       to: toEmail,
       subject: template.subject,
       html: bodyHtml,
-      headers: { 'X-Tracking-Id': trackingId },
+      headers: {
+        'X-Tracking-Id': trackingId,
+        'List-Unsubscribe': `<${unsubUrl}>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      },
     })
 
     const ok = !sendError

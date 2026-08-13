@@ -70,6 +70,12 @@ export async function GET(request: Request) {
         continue
       }
 
+      const unsubUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://gtm.scient.cc'}/email-preferences`
+      const unsubHeaders = {
+        'List-Unsubscribe': `<${unsubUrl}>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      }
+
       const sendOptions = rendered.html
         ? {
             from: rendered.from,
@@ -77,6 +83,7 @@ export async function GET(request: Request) {
             subject: rendered.subject,
             html: rendered.html,
             replyTo: rendered.replyTo,
+            headers: unsubHeaders,
           }
         : {
             from: rendered.from,
@@ -84,6 +91,7 @@ export async function GET(request: Request) {
             subject: rendered.subject,
             text: rendered.text ?? '',
             replyTo: rendered.replyTo,
+            headers: unsubHeaders,
           }
       const sendRes = await resend.emails.send(sendOptions)
 
