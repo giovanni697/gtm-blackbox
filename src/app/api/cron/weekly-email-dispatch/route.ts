@@ -41,6 +41,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
+  if (process.env.EMAIL_SENDING_PAUSED === 'true') {
+    return NextResponse.json({ paused: true, sent: 0 })
+  }
+
   const sb = createServiceClient()
   const campaign = isoWeekLabel()
 
