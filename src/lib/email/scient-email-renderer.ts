@@ -6,6 +6,16 @@ import type { EmailType, RenderedEmail } from './types'
 
 const EMAILS_DIR = path.join(process.cwd(), 'content', 'emails', 'onboarding')
 
+// Mapeia novos tipos da régua para os MDX dos drips existentes
+const CADENCE_ALIAS: Record<string, string> = {
+  cad_du01_welcome: 'drip_d0_welcome',
+  cad_du03_radar: 'drip_d2_radar',
+  cad_du05_capitulo: 'drip_d5_capitulo',
+  cad_du07_template: 'drip_d9_template',
+  cad_du15_checkpoint: 'drip_d14_verification',
+  cad_du30_final: 'drip_d30_checkpoint',
+}
+
 function escapeHtml(s: string) {
   return s
     .replace(/&/g, '&amp;')
@@ -59,7 +69,8 @@ export async function renderScientEmail(
   type: EmailType,
   decision: Decision,
 ): Promise<RenderedEmail> {
-  const filename = `${type}__${decision.variant}.mdx`
+  const resolvedType = CADENCE_ALIAS[type] ?? type
+  const filename = `${resolvedType}__${decision.variant}.mdx`
   const filepath = path.join(EMAILS_DIR, filename)
 
   let raw: string

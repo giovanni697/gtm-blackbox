@@ -1,4 +1,5 @@
 export type EmailType =
+  // Drip legado (mantido para histórico, não enfileirado em novos signups)
   | 'drip_d0_welcome'
   | 'drip_d2_radar'
   | 'drip_d5_capitulo'
@@ -6,6 +7,17 @@ export type EmailType =
   | 'drip_d9_template'
   | 'drip_d14_verification'
   | 'drip_d30_checkpoint'
+  // Régua fixa — 10 e-mails em 30 dias úteis
+  | 'cad_du01_welcome'
+  | 'cad_du03_radar'
+  | 'cad_du05_capitulo'
+  | 'cad_du07_template'
+  | 'cad_du10_forecast'
+  | 'cad_du13_certificacao'
+  | 'cad_du15_checkpoint'
+  | 'cad_du18_giovanni'
+  | 'cad_du22_certificacao'
+  | 'cad_du30_final'
 
 export type EmailStatus = 'queued' | 'sending' | 'sent' | 'failed' | 'cancelled' | 'dry_run'
 

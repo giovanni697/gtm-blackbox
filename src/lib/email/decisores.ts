@@ -29,12 +29,17 @@ const PILAR_TO_TEMPLATE: Record<number, string> = {
   5: '06-identificacao-de-gargalos',
 }
 
+const CERT_URL = process.env.NEXT_PUBLIC_CERTIFICATION_URL ?? 'https://gtme.scient.cc'
+
 export function decideEmail(type: EmailType, usage: UserUsage): Decision {
   switch (type) {
+    // ── Drip legado ──────────────────────────────────────────────────────────
     case 'drip_d0_welcome':
+    case 'cad_du01_welcome':
       return { variant: 'default', payload: { nome: usage.nome } }
 
     case 'drip_d2_radar':
+    case 'cad_du03_radar':
       if (usage.didDiagnostico && usage.gargalo) {
         return {
           variant: 'fez_diagnostico',
@@ -48,6 +53,7 @@ export function decideEmail(type: EmailType, usage: UserUsage): Decision {
       return { variant: 'nao_fez', payload: { nome: usage.nome } }
 
     case 'drip_d5_capitulo':
+    case 'cad_du05_capitulo':
       if (usage.didDiagnostico && usage.gargalo) {
         return {
           variant: `cap_p${usage.gargalo}`,
@@ -63,10 +69,8 @@ export function decideEmail(type: EmailType, usage: UserUsage): Decision {
         payload: { nome: usage.nome, chapterSlug: '01-principios-edson-rigonatti' },
       }
 
-    case 'personal_giovanni':
-      return pickGiovanniVariant(usage)
-
     case 'drip_d9_template':
+    case 'cad_du07_template':
       if (usage.didDiagnostico && usage.gargalo) {
         return {
           variant: `tpl_p${usage.gargalo}`,
@@ -82,10 +86,16 @@ export function decideEmail(type: EmailType, usage: UserUsage): Decision {
         payload: { nome: usage.nome, templateSlug: '01-arquitetura-de-dados' },
       }
 
+    case 'personal_giovanni':
+    case 'cad_du18_giovanni':
+      return pickGiovanniVariant(usage)
+
     case 'drip_d14_verification':
+    case 'cad_du15_checkpoint':
       return { variant: 'default', payload: { nome: usage.nome, didForecast: usage.didForecast } }
 
     case 'drip_d30_checkpoint':
+    case 'cad_du30_final':
       return {
         variant: 'default',
         payload: {
@@ -95,6 +105,14 @@ export function decideEmail(type: EmailType, usage: UserUsage): Decision {
           gargalo: usage.gargalo,
         },
       }
+
+    // ── Novos e-mails da régua ────────────────────────────────────────────────
+    case 'cad_du10_forecast':
+      return { variant: 'default', payload: { nome: usage.nome } }
+
+    case 'cad_du13_certificacao':
+    case 'cad_du22_certificacao':
+      return { variant: 'default', payload: { nome: usage.nome, certUrl: CERT_URL } }
   }
 }
 
